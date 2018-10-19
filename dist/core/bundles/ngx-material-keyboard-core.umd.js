@@ -7088,6 +7088,9 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
         if (char && this.input) {
             this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
             this._setCursorPosition(caretStart + 1);
+            if (this.input && this.input.nativeElement) {
+                this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+            }
         }
     };
     MatKeyboardKeyComponent.prototype.deleteSelectedText = function (caretStart, caretEnd, value) {
