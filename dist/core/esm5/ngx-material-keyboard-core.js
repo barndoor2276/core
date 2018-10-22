@@ -7044,6 +7044,9 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
                 break;
             case KeyboardClassKey.Bksp:
                 this.deleteSelectedText(caretStart, caretEnd, value);
+                if (this.input && this.input.nativeElement) {
+                    this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                }
                 this.bkspClick.emit(event);
                 break;
             case KeyboardClassKey.Caps:
@@ -7054,6 +7057,9 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
                     char = VALUE_NEWLINE;
                 }
                 else {
+                    if (this.input && this.input.nativeElement) {
+                        this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
                     this.enterClick.emit(event);
                 }
                 break;
@@ -7062,6 +7068,9 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
                 break;
             case KeyboardClassKey.Space:
                 char = VALUE_SPACE;
+                if (this.input && this.input.nativeElement) {
+                    this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                }
                 this.spaceClick.emit(event);
                 break;
             case KeyboardClassKey.Tab:
