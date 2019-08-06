@@ -1,10 +1,10 @@
 # Output Directories #
 build/
-dist/
+dist/demo
 # core/
 docs/
 # src/
-src/demo
+# src/demo
 src/core/.ng_pkg_build
 target/
 

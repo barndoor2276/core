@@ -4,20 +4,20 @@
   "description": "Onscreen virtual keyboard for Angular ≥ 5 (https://angular.io/) using Material 2 (https://material.angular.io/).",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngx-material-keyboard/core.git"
+    "url": "git+https://github.com/barndoor2276/ngx-material-keyboard-src.git"
   },
-  "author": "David Enke <post@davidenke.de>",
+  "author": "WFM API",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngx-material-keyboard/core/issues"
+    "url": "https://github.com/barndoor2276/ngx-material-keyboard-src/issues"
   },
-  "homepage": "https://github.com/ngx-material-keyboard/core",
+  "homepage": "https://github.com/barndoor2276/ngx-material-keyboard-src",
   "scripts": {
     "ng": "ng",
     "start": "npm run start:demo",
     "start:demo": "ng serve --host 0.0.0.0 --disable-host-check",
-    "build": "npm run build:core",
-    "build:core": "ng-packagr -p ./src/core/package.json && cpx -p README.md core",
+    "build": "npm run build:core && npm run build:demo && npm run build:docs",
+    "build:core": "ng-packagr -p ./src/core/package.json && cpx -p README.md dist",
     "build:demo": "ng build --prod --locale=de --progress=false --base-href=/demo/",
     "build:docs": "compodoc ./src/core -p ./tsconfig.json --silent --disableCoverage --disablePrivateOrInternalSupport --theme readthedocs --output ./dist/docs",
     "test": "ng test",

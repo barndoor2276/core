@@ -1,3 +1,4 @@
+import { __awaiter, __extends, __generator } from 'tslib';
 import { Subject } from 'rxjs/Subject';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, PortalModule } from '@angular/cdk/portal';
@@ -13,85 +14,41 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * Reference to a keyboard dispatched from the keyboard service.
- */
-class MatKeyboardRef {
-    /**
-     * @param {?} instance
-     * @param {?} containerInstance
-     * @param {?} _overlayRef
-     */
-    constructor(instance, containerInstance, _overlayRef) {
+var MatKeyboardRef = /** @class */ (function () {
+    function MatKeyboardRef(instance, containerInstance, _overlayRef) {
+        var _this = this;
         this._overlayRef = _overlayRef;
-        /**
-         * Subject for notifying the user that the keyboard has closed.
-         */
         this._afterClosed = new Subject();
-        /**
-         * Subject for notifying the user that the keyboard has opened and appeared.
-         */
         this._afterOpened = new Subject();
-        // Sets the readonly instance of the keyboard content component.
         this.instance = instance;
         this.containerInstance = containerInstance;
-        // Finish dismiss on exitting
-        containerInstance.onExit.subscribe(() => this._finishDismiss());
+        containerInstance.onExit.subscribe(function () { return _this._finishDismiss(); });
     }
-    /**
-     * Dismisses the keyboard.
-     * @return {?}
-     */
-    dismiss() {
+    MatKeyboardRef.prototype.dismiss = function () {
         if (!this._afterClosed.closed) {
             this.containerInstance.exit();
         }
-    }
-    /**
-     * Marks the keyboard as opened
-     * @return {?}
-     */
-    _open() {
+    };
+    MatKeyboardRef.prototype._open = function () {
         if (!this._afterOpened.closed) {
             this._afterOpened.next();
             this._afterOpened.complete();
         }
-    }
-    /**
-     * Gets an observable that is notified when the keyboard is finished closing.
-     * @return {?}
-     */
-    afterDismissed() {
+    };
+    MatKeyboardRef.prototype.afterDismissed = function () {
         return this._afterClosed.asObservable();
-    }
-    /**
-     * Gets an observable that is notified when the keyboard has opened and appeared.
-     * @return {?}
-     */
-    afterOpened() {
+    };
+    MatKeyboardRef.prototype.afterOpened = function () {
         return this.containerInstance.onEnter;
-    }
-    /**
-     * Cleans up the DOM after closing.
-     * @return {?}
-     */
-    _finishDismiss() {
+    };
+    MatKeyboardRef.prototype._finishDismiss = function () {
         this._overlayRef.dispose();
         this._afterClosed.next();
         this._afterClosed.complete();
-    }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/** @enum {string} */
-const KeyboardClassKey = {
+    };
+    return MatKeyboardRef;
+}());
+var KeyboardClassKey = {
     Alt: 'Alt',
     AltGr: 'AltGraph',
     AltLk: 'AltLk',
@@ -102,13 +59,7 @@ const KeyboardClassKey = {
     Space: ' ',
     Tab: 'Tab',
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/** @enum {number} */
-const KeyboardModifier = {
+var KeyboardModifier = {
     None: 0,
     Shift: 1,
     Alt: 2,
@@ -118,203 +69,101 @@ KeyboardModifier[KeyboardModifier.None] = "None";
 KeyboardModifier[KeyboardModifier.Shift] = "Shift";
 KeyboardModifier[KeyboardModifier.Alt] = "Alt";
 KeyboardModifier[KeyboardModifier.ShiftAlt] = "ShiftAlt";
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/** @enum {string} */
-const KeyboardAnimationState = {
+var KeyboardAnimationState = {
     Void: 'void',
     Visible: 'visible',
     Hidden: 'hidden',
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-// import { KeyboardAnimationState } from './keyboard-animation-state.enum';
-//
-// export enum KeyboardAnimationTransition {
-//   Hide = `${KeyboardAnimationState.Visible} => ${KeyboardAnimationState.Hidden}`,
-//   Show = `${KeyboardAnimationState.Void} => ${KeyboardAnimationState.Visible}`
-// }
-/** @enum {string} */
-const KeyboardAnimationTransition = {
+var KeyboardAnimationTransition = {
     Hide: 'visible => hidden',
     Show: 'void => visible',
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-// TODO: we can't use constants from animation.ts here because you can't use
-// a text interpolation in anything that is analyzed statically with ngc (for AoT compile).
-const SHOW_ANIMATION = `${AnimationDurations.ENTERING} ${AnimationCurves.DECELERATION_CURVE}`;
-const HIDE_ANIMATION = `${AnimationDurations.EXITING} ${AnimationCurves.ACCELERATION_CURVE}`;
-/**
- * Internal component that wraps user-provided keyboard content.
- * \@docs-private
- */
-class MatKeyboardContainerComponent extends BasePortalOutlet {
-    /**
-     * @param {?} _ngZone
-     * @param {?} _changeDetectorRef
-     */
-    constructor(_ngZone, _changeDetectorRef) {
-        super();
-        this._ngZone = _ngZone;
-        this._changeDetectorRef = _changeDetectorRef;
-        /**
-         * Whether the component has been destroyed.
-         */
-        this._destroyed = false;
-        /**
-         * The state of the keyboard animations.
-         */
-        this._animationState = KeyboardAnimationState.Void;
-        /**
-         * Subject for notifying that the keyboard has exited from view.
-         */
-        this.onExit = new Subject();
-        /**
-         * Subject for notifying that the keyboard has finished entering the view.
-         */
-        this.onEnter = new Subject();
-        this.attrRole = 'alert';
+var SHOW_ANIMATION = AnimationDurations.ENTERING + " " + AnimationCurves.DECELERATION_CURVE;
+var HIDE_ANIMATION = AnimationDurations.EXITING + " " + AnimationCurves.ACCELERATION_CURVE;
+var MatKeyboardContainerComponent = /** @class */ (function (_super) {
+    __extends(MatKeyboardContainerComponent, _super);
+    function MatKeyboardContainerComponent(_ngZone, _changeDetectorRef) {
+        var _this = _super.call(this) || this;
+        _this._ngZone = _ngZone;
+        _this._changeDetectorRef = _changeDetectorRef;
+        _this._destroyed = false;
+        _this._animationState = KeyboardAnimationState.Void;
+        _this.onExit = new Subject();
+        _this.onEnter = new Subject();
+        _this.attrRole = 'alert';
+        return _this;
     }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onMousedown(event) {
+    MatKeyboardContainerComponent.prototype.onMousedown = function (event) {
         event.preventDefault();
-    }
-    /**
-     * Attach a component portal as content to this keyboard container.
-     * @template T
-     * @param {?} portal
-     * @return {?}
-     */
-    attachComponentPortal(portal) {
+    };
+    MatKeyboardContainerComponent.prototype.attachComponentPortal = function (portal) {
         if (this._portalOutlet.hasAttached()) {
             throw Error('Attempting to attach keyboard content after content is already attached');
         }
         return this._portalOutlet.attachComponentPortal(portal);
-    }
-    /**
-     * @return {?}
-     */
-    attachTemplatePortal() {
+    };
+    MatKeyboardContainerComponent.prototype.attachTemplatePortal = function () {
         throw Error('Not yet implemented');
-    }
-    /**
-     * Handle end of animations, updating the state of the keyboard.
-     * @param {?} event
-     * @return {?}
-     */
-    onAnimationEnd(event) {
-        const { fromState, toState } = event;
+    };
+    MatKeyboardContainerComponent.prototype.onAnimationEnd = function (event) {
+        var fromState = event.fromState, toState = event.toState;
         if ((toState === KeyboardAnimationState.Void && fromState !== KeyboardAnimationState.Void) || toState.startsWith('hidden')) {
             this._completeExit();
         }
         if (toState === KeyboardAnimationState.Visible) {
-            // Note: we shouldn't use `this` inside the zone callback,
-            // because it can cause a memory leak.
-            const /** @type {?} */ onEnter = this.onEnter;
-            this._ngZone.run(() => {
-                onEnter.next();
-                onEnter.complete();
+            var onEnter_1 = this.onEnter;
+            this._ngZone.run(function () {
+                onEnter_1.next();
+                onEnter_1.complete();
             });
         }
-    }
-    /**
-     * Begin animation of keyboard entrance into view.
-     * @return {?}
-     */
-    enter() {
+    };
+    MatKeyboardContainerComponent.prototype.enter = function () {
         if (!this._destroyed) {
             this._animationState = KeyboardAnimationState.Visible;
             this._changeDetectorRef.detectChanges();
         }
-    }
-    /**
-     * Begin animation of the snack bar exiting from view.
-     * @return {?}
-     */
-    exit() {
+    };
+    MatKeyboardContainerComponent.prototype.exit = function () {
         this._animationState = KeyboardAnimationState.Hidden;
         return this.onExit;
-    }
-    /**
-     * Makes sure the exit callbacks have been invoked when the element is destroyed.
-     * @return {?}
-     */
-    ngOnDestroy() {
+    };
+    MatKeyboardContainerComponent.prototype.ngOnDestroy = function () {
         this._destroyed = true;
         this._completeExit();
-    }
-    /**
-     * Waits for the zone to settle before removing the element. Helps prevent
-     * errors where we end up removing an element which is in the middle of an animation.
-     * @return {?}
-     */
-    _completeExit() {
+    };
+    MatKeyboardContainerComponent.prototype._completeExit = function () {
+        var _this = this;
         this._ngZone.onMicrotaskEmpty
             .asObservable()
             .first()
-            .subscribe(() => {
-            this.onExit.next();
-            this.onExit.complete();
+            .subscribe(function () {
+            _this.onExit.next();
+            _this.onExit.complete();
         });
-    }
-}
+    };
+    return MatKeyboardContainerComponent;
+}(BasePortalOutlet));
 MatKeyboardContainerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mat-keyboard-container',
-                template: `<ng-template cdkPortalHost></ng-template>
-`,
-                styles: [`:host{
-  -webkit-box-shadow:0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-          box-shadow:0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-  border-radius:2px;
-  -webkit-box-sizing:border-box;
-          box-sizing:border-box;
-  display:block;
-  margin:0 auto;
-  max-width:960px;
-  min-width:568px;
-  -webkit-transform:translateY(100%);
-          transform:translateY(100%); }
-  @media screen and (-ms-high-contrast: active){
-    :host{
-      border:solid 1px; } }
-`],
+                template: "<ng-template cdkPortalHost></ng-template>\n",
+                styles: [":host{\n  -webkit-box-shadow:0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n          box-shadow:0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);\n  border-radius:2px;\n  -webkit-box-sizing:border-box;\n          box-sizing:border-box;\n  display:block;\n  margin:0 auto;\n  max-width:960px;\n  min-width:568px;\n  -webkit-transform:translateY(100%);\n          transform:translateY(100%); }\n  @media screen and (-ms-high-contrast: active){\n    :host{\n      border:solid 1px; } }\n"],
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 preserveWhitespaces: false,
-                // animations: [
-                //   trigger('state', [
-                //     state('visible', style({transform: 'translateY(0%)'})),
-                //     transition('visible => hidden', animate(HIDE_ANIMATION)),
-                //     transition('void => visible', animate(SHOW_ANIMATION)),
-                //   ])
-                // ]
                 animations: [
                     trigger('state', [
-                        state(`${KeyboardAnimationState.Visible}`, style({ transform: 'translateY(0%)' })),
-                        transition(`${KeyboardAnimationTransition.Hide}`, animate(HIDE_ANIMATION)),
-                        transition(`${KeyboardAnimationTransition.Show}`, animate(SHOW_ANIMATION))
+                        state("" + KeyboardAnimationState.Visible, style({ transform: 'translateY(0%)' })),
+                        transition("" + KeyboardAnimationTransition.Hide, animate(HIDE_ANIMATION)),
+                        transition("" + KeyboardAnimationTransition.Show, animate(SHOW_ANIMATION))
                     ])
                 ]
             },] },
 ];
-/** @nocollapse */
-MatKeyboardContainerComponent.ctorParameters = () => [
+MatKeyboardContainerComponent.ctorParameters = function () { return [
     { type: NgZone, },
     { type: ChangeDetectorRef, },
-];
+]; };
 MatKeyboardContainerComponent.propDecorators = {
     "_portalOutlet": [{ type: ViewChild, args: [CdkPortalOutlet,] },],
     "_animationState": [{ type: HostBinding, args: ['@state',] },],
@@ -322,13 +171,8 @@ MatKeyboardContainerComponent.propDecorators = {
     "onMousedown": [{ type: HostListener, args: ['mousedown', ['$event'],] },],
     "onAnimationEnd": [{ type: HostListener, args: ['@state.done', ['$event'],] },],
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-const MAT_KEYBOARD_LAYOUTS = new InjectionToken('keyboard-layouts.config');
-const keyboardLayouts = {
+var MAT_KEYBOARD_LAYOUTS = new InjectionToken('keyboard-layouts.config');
+var keyboardLayouts = {
     '\u0627\u0644\u0639\u0631\u0628\u064a\u0629': {
         'name': 'Arabic',
         'keys': [
@@ -6397,7 +6241,6 @@ const keyboardLayouts = {
         'lang': ['uz']
     },
     '\u05d9\u05d9\u05b4\u05d3\u05d9\u05e9': {
-        // from http://www.yv.org/uyip/hebyidkbd.txt http://uyip.org/keyboards.html
         'name': 'Yiddish',
         'keys': [
             [
@@ -6469,7 +6312,6 @@ const keyboardLayouts = {
         'lang': ['yi']
     },
     '\u05d9\u05d9\u05b4\u05d3\u05d9\u05e9 \u05dc\u05e2\u05d1\u05d8': {
-        // from http://jidysz.net/
         'name': 'Yiddish (Yidish Lebt)',
         'keys': [
             [
@@ -6681,7 +6523,6 @@ const keyboardLayouts = {
         'lang': ['zh']
     }
 };
-// aliases
 keyboardLayouts['Hrvatski'] = {
     'name': 'Croatian',
     'keys': keyboardLayouts['Bosanski'].keys.slice(0),
@@ -6697,271 +6538,156 @@ keyboardLayouts['Srpski'] = {
     'keys': keyboardLayouts['Bosanski'].keys.slice(0),
     'lang': ['sr']
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-class MatKeyboardConfig {
-    constructor() {
-        /**
-         * The politeness level for the MatAriaLiveAnnouncer announcement.
-         */
+var MatKeyboardConfig = /** @class */ (function () {
+    function MatKeyboardConfig() {
         this.politeness = 'assertive';
-        /**
-         * Message to be announced by the MatAriaLiveAnnouncer
-         */
         this.announcementMessage = '';
-        /**
-         * The view container to place the overlay for the keyboard into.
-         */
         this.viewContainerRef = null;
-        /**
-         * The length of time in milliseconds to wait before automatically dismissing the keyboard after blur.
-         */
         this.duration = 0;
-        /**
-         * Enable a dark keyboard *
-         */
         this.darkTheme = null;
-        /**
-         * Enable the debug view *
-         */
         this.isDebug = false;
     }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * Applies default options to the keyboard configs.
- * @param {?} config The configuration to which the defaults will be applied.
- * @return {?} The new configuration object with defaults applied.
- */
+    return MatKeyboardConfig;
+}());
 function _applyConfigDefaults(config) {
     return Object.assign(new MatKeyboardConfig(), config);
 }
-/**
- * Applies available layouts.
- * @param {?} layouts
- * @return {?}
- */
 function _applyAvailableLayouts(layouts) {
-    const /** @type {?} */ _availableLocales = {};
+    var _availableLocales = {};
     Object
         .keys(layouts)
-        .filter((layout) => 'lang' in layouts[layout])
-        .forEach((layout) => {
-        layouts[layout].lang.forEach((lang) => {
+        .filter(function (layout) { return 'lang' in layouts[layout]; })
+        .forEach(function (layout) {
+        layouts[layout].lang.forEach(function (lang) {
             _availableLocales[lang] = layout;
         });
     });
     return _availableLocales;
 }
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * Service to dispatch Material Design keyboard.
- */
-class MatKeyboardService {
-    /**
-     * @param {?} _overlay
-     * @param {?} _live
-     * @param {?} _defaultLocale
-     * @param {?} _layouts
-     * @param {?} _parentKeyboard
-     */
-    constructor(_overlay, _live, _defaultLocale, _layouts, _parentKeyboard) {
+var MatKeyboardService = /** @class */ (function () {
+    function MatKeyboardService(_overlay, _live, _defaultLocale, _layouts, _parentKeyboard) {
         this._overlay = _overlay;
         this._live = _live;
         this._defaultLocale = _defaultLocale;
         this._layouts = _layouts;
         this._parentKeyboard = _parentKeyboard;
-        /**
-         * Reference to the current keyboard in the view *at this level* (in the Angular injector tree).
-         * If there is a parent keyboard service, all operations should delegate to that parent
-         * via `_openedKeyboardRef`.
-         */
         this._keyboardRefAtThisLevel = null;
         this._availableLocales = {};
-        // prepare available layouts mapping
         this._availableLocales = _applyAvailableLayouts(_layouts);
     }
-    /**
-     * Reference to the currently opened keyboard at *any* level.
-     * @return {?}
-     */
-    get _openedKeyboardRef() {
-        const /** @type {?} */ parent = this._parentKeyboard;
-        return parent ? parent._openedKeyboardRef : this._keyboardRefAtThisLevel;
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set _openedKeyboardRef(value) {
-        if (this._parentKeyboard) {
-            this._parentKeyboard._openedKeyboardRef = value;
-        }
-        else {
-            this._keyboardRefAtThisLevel = value;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    get availableLocales() {
-        return this._availableLocales;
-    }
-    /**
-     * @return {?}
-     */
-    get isOpened() {
-        return !!this._openedKeyboardRef;
-    }
-    /**
-     * Creates and dispatches a keyboard with a custom component for the content, removing any
-     * currently opened keyboards.
-     *
-     * @param {?} layoutOrLocale layout or locale to use.
-     * @param {?} config Extra configuration for the keyboard.
-     * @return {?}
-     */
-    openFromComponent(layoutOrLocale, config) {
-        const /** @type {?} */ keyboardRef = this._attachKeyboardContent(config);
+    Object.defineProperty(MatKeyboardService.prototype, "_openedKeyboardRef", {
+        get: function () {
+            var parent = this._parentKeyboard;
+            return parent ? parent._openedKeyboardRef : this._keyboardRefAtThisLevel;
+        },
+        set: function (value) {
+            if (this._parentKeyboard) {
+                this._parentKeyboard._openedKeyboardRef = value;
+            }
+            else {
+                this._keyboardRefAtThisLevel = value;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardService.prototype, "availableLocales", {
+        get: function () {
+            return this._availableLocales;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardService.prototype, "isOpened", {
+        get: function () {
+            return !!this._openedKeyboardRef;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MatKeyboardService.prototype.openFromComponent = function (layoutOrLocale, config) {
+        var _this = this;
+        var keyboardRef = this._attachKeyboardContent(config);
         keyboardRef.instance.darkTheme = config.darkTheme;
         keyboardRef.instance.isDebug = config.isDebug;
-        // a locale is provided
         if (this.availableLocales[layoutOrLocale]) {
             keyboardRef.instance.locale = layoutOrLocale;
             keyboardRef.instance.layout = this.getLayoutForLocale(layoutOrLocale);
         }
-        // a layout name is provided
         if (this._layouts[layoutOrLocale]) {
             keyboardRef.instance.layout = this._layouts[layoutOrLocale];
             keyboardRef.instance.locale = this._layouts[layoutOrLocale].lang && this._layouts[layoutOrLocale].lang.pop();
         }
-        // When the keyboard is dismissed, lower the keyboard counter.
         keyboardRef
             .afterDismissed()
-            .subscribe(() => {
-            // Clear the keyboard ref if it hasn't already been replaced by a newer keyboard.
-            if (this._openedKeyboardRef === keyboardRef) {
-                this._openedKeyboardRef = null;
+            .subscribe(function () {
+            if (_this._openedKeyboardRef === keyboardRef) {
+                _this._openedKeyboardRef = null;
             }
         });
         if (this._openedKeyboardRef) {
-            // If a keyboard is already in view, dismiss it and enter the
-            // new keyboard after exit animation is complete.
             this._openedKeyboardRef
                 .afterDismissed()
-                .subscribe(() => {
+                .subscribe(function () {
                 keyboardRef.containerInstance.enter();
             });
             this._openedKeyboardRef.dismiss();
         }
         else {
-            // If no keyboard is in view, enter the new keyboard.
             keyboardRef.containerInstance.enter();
         }
-        // If a dismiss timeout is provided, set up dismiss based on after the keyboard is opened.
-        // if (configs.duration > 0) {
-        //   keyboardRef.afterOpened().subscribe(() => {
-        //     setTimeout(() => keyboardRef.dismiss(), configs.duration);
-        //   });
-        // }
         if (config.announcementMessage) {
             this._live.announce(config.announcementMessage, config.politeness);
         }
         this._openedKeyboardRef = keyboardRef;
         return this._openedKeyboardRef;
-    }
-    /**
-     * Opens a keyboard with a message and an optional action.
-     * @param {?=} layoutOrLocale A string representing the locale or the layout name to be used.
-     * @param {?=} config Additional configuration options for the keyboard.
-     * @return {?}
-     */
-    open(layoutOrLocale = this._defaultLocale, config = {}) {
-        const /** @type {?} */ _config = _applyConfigDefaults(config);
+    };
+    MatKeyboardService.prototype.open = function (layoutOrLocale, config) {
+        if (layoutOrLocale === void 0) { layoutOrLocale = this._defaultLocale; }
+        if (config === void 0) { config = {}; }
+        var _config = _applyConfigDefaults(config);
         return this.openFromComponent(layoutOrLocale, _config);
-    }
-    /**
-     * Dismisses the currently-visible keyboard.
-     * @return {?}
-     */
-    dismiss() {
+    };
+    MatKeyboardService.prototype.dismiss = function () {
         if (this._openedKeyboardRef) {
             this._openedKeyboardRef.dismiss();
         }
-    }
-    /**
-     * Map a given locale to a layout name.
-     * @param {?=} locale The layout name
-     * @return {?}
-     */
-    mapLocale(locale = this._defaultLocale) {
-        let /** @type {?} */ layout;
-        const /** @type {?} */ country = locale
+    };
+    MatKeyboardService.prototype.mapLocale = function (locale) {
+        if (locale === void 0) { locale = this._defaultLocale; }
+        var layout;
+        var country = locale
             .split('-')
             .shift();
-        // search for layout matching the
-        // first part, the country code
         if (this.availableLocales[country]) {
             layout = this.availableLocales[locale];
         }
-        // look if the detailed locale matches any layout
         if (this.availableLocales[locale]) {
             layout = this.availableLocales[locale];
         }
         if (!layout) {
-            throw Error(`No layout found for locale ${locale}`);
+            throw Error("No layout found for locale " + locale);
         }
         return layout;
-    }
-    /**
-     * @param {?} locale
-     * @return {?}
-     */
-    getLayoutForLocale(locale) {
+    };
+    MatKeyboardService.prototype.getLayoutForLocale = function (locale) {
         return this._layouts[this.mapLocale(locale)];
-    }
-    /**
-     * Attaches the keyboard container component to the overlay.
-     * @param {?} overlayRef
-     * @param {?} config
-     * @return {?}
-     */
-    _attachKeyboardContainer(overlayRef, config) {
-        const /** @type {?} */ containerPortal = new ComponentPortal(MatKeyboardContainerComponent, config.viewContainerRef);
-        const /** @type {?} */ containerRef = overlayRef.attach(containerPortal);
-        // set config
+    };
+    MatKeyboardService.prototype._attachKeyboardContainer = function (overlayRef, config) {
+        var containerPortal = new ComponentPortal(MatKeyboardContainerComponent, config.viewContainerRef);
+        var containerRef = overlayRef.attach(containerPortal);
         containerRef.instance.keyboardConfig = config;
         return containerRef.instance;
-    }
-    /**
-     * Places a new component as the content of the keyboard container.
-     * @param {?} config
-     * @return {?}
-     */
-    _attachKeyboardContent(config) {
-        const /** @type {?} */ overlayRef = this._createOverlay();
-        const /** @type {?} */ container = this._attachKeyboardContainer(overlayRef, config);
-        const /** @type {?} */ portal = new ComponentPortal(MatKeyboardComponent);
-        const /** @type {?} */ contentRef = container.attachComponentPortal(portal);
-        return /** @type {?} */ (new MatKeyboardRef(contentRef.instance, container, overlayRef));
-    }
-    /**
-     * Creates a new overlay and places it in the correct location.
-     * @return {?}
-     */
-    _createOverlay() {
-        const /** @type {?} */ state$$1 = new OverlayConfig({
+    };
+    MatKeyboardService.prototype._attachKeyboardContent = function (config) {
+        var overlayRef = this._createOverlay();
+        var container = this._attachKeyboardContainer(overlayRef, config);
+        var portal = new ComponentPortal(MatKeyboardComponent);
+        var contentRef = container.attachComponentPortal(portal);
+        return (new MatKeyboardRef(contentRef.instance, container, overlayRef));
+    };
+    MatKeyboardService.prototype._createOverlay = function () {
+        var state$$1 = new OverlayConfig({
             width: '100%'
         });
         state$$1.positionStrategy = this._overlay
@@ -6970,26 +6696,21 @@ class MatKeyboardService {
             .centerHorizontally()
             .bottom('0');
         return this._overlay.create(state$$1);
-    }
-}
+    };
+    return MatKeyboardService;
+}());
 MatKeyboardService.decorators = [
     { type: Injectable },
 ];
-/** @nocollapse */
-MatKeyboardService.ctorParameters = () => [
+MatKeyboardService.ctorParameters = function () { return [
     { type: Overlay, },
     { type: LiveAnnouncer, },
     { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
     { type: undefined, decorators: [{ type: Inject, args: [MAT_KEYBOARD_LAYOUTS,] },] },
     { type: MatKeyboardService, decorators: [{ type: Optional }, { type: SkipSelf },] },
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-const MAT_KEYBOARD_DEADKEYS = new InjectionToken('keyboard-deadkey.config');
-const keyboardDeadkeys = {
+]; };
+var MAT_KEYBOARD_DEADKEYS = new InjectionToken('keyboard-deadkey.config');
+var keyboardDeadkeys = {
     '"': {
         'a': '\u00e4',
         'e': '\u00eb',
@@ -7057,17 +6778,14 @@ const keyboardDeadkeys = {
         '\u30db': '\u30dc'
     },
     '~': {
-        // Tilde / Stroke
         'a': '\u00e3', 'l': '\u0142', 'n': '\u00f1', 'o': '\u00f5',
         'A': '\u00c3', 'L': '\u0141', 'N': '\u00d1', 'O': '\u00d5'
     },
     '^': {
-        // Circumflex
         'a': '\u00e2', 'e': '\u00ea', 'i': '\u00ee', 'o': '\u00f4', 'u': '\u00fb', 'w': '\u0175', 'y': '\u0177',
         'A': '\u00c2', 'E': '\u00ca', 'I': '\u00ce', 'O': '\u00d4', 'U': '\u00db', 'W': '\u0174', 'Y': '\u0176'
     },
     '\u02c7': {
-        // Baltic caron
         'c': '\u010D',
         'd': '\u010f',
         'e': '\u011b',
@@ -7092,12 +6810,10 @@ const keyboardDeadkeys = {
         '\u00dc': '\u01d9'
     },
     '\u02d8': {
-        // Romanian and Turkish breve
         'a': '\u0103', 'g': '\u011f',
         'A': '\u0102', 'G': '\u011e'
     },
     '-': {
-        // Macron
         'a': '\u0101',
         'e': '\u0113',
         'i': '\u012b',
@@ -7114,12 +6830,10 @@ const keyboardDeadkeys = {
         '\u00dc': '\u01d5'
     },
     '`': {
-        // Grave
         'a': '\u00e0', 'e': '\u00e8', 'i': '\u00ec', 'o': '\u00f2', 'u': '\u00f9', '\u00fc': '\u01dc',
         'A': '\u00c0', 'E': '\u00c8', 'I': '\u00cc', 'O': '\u00d2', 'U': '\u00d9', '\u00dc': '\u01db'
     },
     '\'': {
-        // Acute / Greek Tonos
         'a': '\u00e1',
         'e': '\u00e9',
         'i': '\u00ed',
@@ -7150,82 +6864,46 @@ const keyboardDeadkeys = {
         '\u00dc': '\u01d7'
     },
     '\u02dd': {
-        // Hungarian Double Acute Accent
         'o': '\u0151', 'u': '\u0171',
         'O': '\u0150', 'U': '\u0170'
     },
     '\u0385': {
-        // Greek Dialytika + Tonos
         '\u03b9': '\u0390', '\u03c5': '\u03b0'
     },
     '\u00b0': {
-        // Ring
         'a': '\u00e5', 'u': '\u016f',
         'A': '\u00c5', 'U': '\u016e'
     },
     '\u02DB': {
-        // Ogonek
         'a': '\u0106', 'e': '\u0119', 'i': '\u012f', 'o': '\u01eb', 'u': '\u0173', 'y': '\u0177',
         'A': '\u0105', 'E': '\u0118', 'I': '\u012e', 'O': '\u01ea', 'U': '\u0172', 'Y': '\u0176'
     },
     '\u02D9': {
-        // Dot-above
         'c': '\u010B', 'e': '\u0117', 'g': '\u0121', 'z': '\u017C',
         'C': '\u010A', 'E': '\u0116', 'G': '\u0120', 'Z': '\u017B'
     },
     '\u00B8': {
-        // Cedilla
         'c': '\u00e7', 's': '\u015F',
         'C': '\u00c7', 'S': '\u015E'
     },
-    /*',': { // Comma
-       's': (this.VKI_isIElt8) ? '\u015F' : '\u0219', 't': (this.VKI_isIElt8) ? '\u0163' : '\u021B',
-       'S': (this.VKI_isIElt8) ? '\u015E' : '\u0218', 'T': (this.VKI_isIElt8) ? '\u0162' : '\u021A'
-       },*/
     '\u3002': {
-        // Hiragana/Katakana Point
         '\u306f': '\u3071', '\u3072': '\u3074', '\u3075': '\u3077', '\u3078': '\u307a', '\u307b': '\u307d',
         '\u30cf': '\u30d1', '\u30d2': '\u30d4', '\u30d5': '\u30d7', '\u30d8': '\u30da', '\u30db': '\u30dd'
     }
 };
-// aliases
-// Macron
 keyboardDeadkeys['\u00af'] = keyboardDeadkeys['-'];
-// Umlaut / Diaeresis / Greek Dialytika / Hiragana/Katakana Voiced Sound Mark
 keyboardDeadkeys['\u00a8'] = keyboardDeadkeys['\u309B'] = keyboardDeadkeys['"'];
-// Acute / Greek Tonos
 keyboardDeadkeys['\u00b4'] = keyboardDeadkeys['\u0384'] = keyboardDeadkeys['\''];
-// Ring
 keyboardDeadkeys['\u00ba'] = keyboardDeadkeys['\u00b0'];
 keyboardDeadkeys['\u201a'] = keyboardDeadkeys['\u00B8'];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-const MAT_KEYBOARD_ICONS = new InjectionToken('keyboard-icons.config');
-const keyboardIcons = {
-    [KeyboardClassKey.Bksp]: 'keyboard_backspace',
-    [KeyboardClassKey.Caps]: 'keyboard_capslock',
-    [KeyboardClassKey.Enter]: 'keyboard_return',
-    [KeyboardClassKey.Shift]: 'keyboard_arrow_up',
-    [KeyboardClassKey.Space]: ' ',
-    [KeyboardClassKey.Tab]: 'keyboard_tab'
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-const VALUE_NEWLINE = '\n\r';
-const VALUE_SPACE = ' ';
-const VALUE_TAB = '\t';
-class MatKeyboardKeyComponent {
-    /**
-     * @param {?} _deadkeys
-     * @param {?} _icons
-     */
-    constructor(_deadkeys, _icons) {
+var MAT_KEYBOARD_ICONS = new InjectionToken('keyboard-icons.config');
+var keyboardIcons = (_a = {}, _a[KeyboardClassKey.Bksp] = 'keyboard_backspace', _a[KeyboardClassKey.Caps] = 'keyboard_capslock', _a[KeyboardClassKey.Enter] = 'keyboard_return', _a[KeyboardClassKey.Shift] = 'keyboard_arrow_up', _a[KeyboardClassKey.Space] = ' ', _a[KeyboardClassKey.Tab] = 'keyboard_tab', _a);
+var KEYBOARD_LOCK_DURATION_MS = 25;
+var VALUE_NEWLINE = '\n\r';
+var VALUE_SPACE = ' ';
+var VALUE_TAB = '\t';
+var MatKeyboardKeyComponent = /** @class */ (function () {
+    function MatKeyboardKeyComponent(_deadkeys, _icons) {
         this._deadkeys = _deadkeys;
         this._icons = _icons;
         this._deadkeyKeys = [];
@@ -7242,203 +6920,198 @@ class MatKeyboardKeyComponent {
         this.tabClick = new EventEmitter();
         this.keyClick = new EventEmitter();
     }
-    /**
-     * @param {?} active
-     * @return {?}
-     */
-    set active(active) {
-        this.active$.next(active);
-    }
-    /**
-     * @return {?}
-     */
-    get active() {
-        return this.active$.getValue();
-    }
-    /**
-     * @param {?} pressed
-     * @return {?}
-     */
-    set pressed(pressed) {
-        this.pressed$.next(pressed);
-    }
-    /**
-     * @return {?}
-     */
-    get pressed() {
-        return this.pressed$.getValue();
-    }
-    /**
-     * @return {?}
-     */
-    get lowerKey() {
-        return `${this.key}`.toLowerCase();
-    }
-    /**
-     * @return {?}
-     */
-    get charCode() {
-        return `${this.key}`.charCodeAt(0);
-    }
-    /**
-     * @return {?}
-     */
-    get isClassKey() {
-        return this.key in KeyboardClassKey;
-    }
-    /**
-     * @return {?}
-     */
-    get isDeadKey() {
-        return this._deadkeyKeys.some((deadKey) => deadKey === `${this.key}`);
-    }
-    /**
-     * @return {?}
-     */
-    get hasIcon() {
-        return this._iconKeys.some((iconKey) => iconKey === `${this.key}`);
-    }
-    /**
-     * @return {?}
-     */
-    get icon() {
-        return this._icons[this.key];
-    }
-    /**
-     * @return {?}
-     */
-    get cssClass() {
-        const /** @type {?} */ classes = [];
-        if (this.hasIcon) {
-            classes.push('mat-keyboard-key-modifier');
-            classes.push(`mat-keyboard-key-${this.lowerKey}`);
-        }
-        if (this.isDeadKey) {
-            classes.push('mat-keyboard-key-deadkey');
-        }
-        return classes.join(' ');
-    }
-    /**
-     * @return {?}
-     */
-    get inputValue() {
-        if (this.control) {
-            return this.control.value;
-        }
-        else if (this.input && this.input.nativeElement && this.input.nativeElement.value) {
-            return this.input.nativeElement.value;
-        }
-        else {
-            return '';
-        }
-    }
-    /**
-     * @param {?} inputValue
-     * @return {?}
-     */
-    set inputValue(inputValue) {
-        if (this.control) {
-            this.control.setValue(inputValue);
-        }
-        else if (this.input && this.input.nativeElement) {
-            this.input.nativeElement.value = inputValue;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        // read the deadkeys
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "active", {
+        get: function () {
+            return this.active$.getValue();
+        },
+        set: function (active) {
+            this.active$.next(active);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "pressed", {
+        get: function () {
+            return this.pressed$.getValue();
+        },
+        set: function (pressed) {
+            this.pressed$.next(pressed);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "lowerKey", {
+        get: function () {
+            return ("" + this.key).toLowerCase();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "charCode", {
+        get: function () {
+            return ("" + this.key).charCodeAt(0);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "isClassKey", {
+        get: function () {
+            return this.key in KeyboardClassKey;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "isDeadKey", {
+        get: function () {
+            var _this = this;
+            return this._deadkeyKeys.some(function (deadKey) { return deadKey === "" + _this.key; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "hasIcon", {
+        get: function () {
+            var _this = this;
+            return this._iconKeys.some(function (iconKey) { return iconKey === "" + _this.key; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "icon", {
+        get: function () {
+            return this._icons[this.key];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "cssClass", {
+        get: function () {
+            var classes = [];
+            if (this.hasIcon) {
+                classes.push('mat-keyboard-key-modifier');
+                classes.push("mat-keyboard-key-" + this.lowerKey);
+            }
+            if (this.isDeadKey) {
+                classes.push('mat-keyboard-key-deadkey');
+            }
+            return classes.join(' ');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardKeyComponent.prototype, "inputValue", {
+        get: function () {
+            if (this.control) {
+                return this.control.value;
+            }
+            else if (this.input && this.input.nativeElement && this.input.nativeElement.value) {
+                return this.input.nativeElement.value;
+            }
+            else {
+                return '';
+            }
+        },
+        set: function (inputValue) {
+            if (this.control) {
+                this.control.setValue(inputValue);
+            }
+            else if (this.input && this.input.nativeElement) {
+                this.input.nativeElement.value = inputValue;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MatKeyboardKeyComponent.prototype.ngOnInit = function () {
         this._deadkeyKeys = Object.keys(this._deadkeys);
-        // read the icons
         this._iconKeys = Object.keys(this._icons);
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onClick(event) {
-        // Trigger a global key event
-        // TODO: investigate
-        this._triggerKeyEvent();
-        // Trigger generic click event
-        this.genericClick.emit(event);
-        // Manipulate the focused input / textarea value
-        let /** @type {?} */ value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
-        const /** @type {?} */ caretStart = this.input ? this._getCursorPosition().start : 0;
-        const /** @type {?} */ caretEnd = this.input ? this._getCursorPosition().end : 0;
-        if (caretEnd !== caretStart) {
-            value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
-            this._setCursorPosition(caretStart);
-        }
-        let /** @type {?} */ char;
-        switch (this.key) {
-            // this keys have no actions yet
-            // TODO: add deadkeys and modifiers
-            case KeyboardClassKey.Alt:
-            case KeyboardClassKey.AltGr:
-            case KeyboardClassKey.AltLk:
-                this.altClick.emit(event);
-                break;
-            case KeyboardClassKey.Bksp:
-                this.deleteSelectedText(caretStart, caretEnd, value);
-                if (this.input && this.input.nativeElement) {
-                    this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    MatKeyboardKeyComponent.lockKeyboard = function (ms) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, new Promise(function (resolve) {
+                            MatKeyboardKeyComponent.KeyboardLock = true;
+                            setTimeout(resolve, ms);
+                        }).then(function () {
+                            MatKeyboardKeyComponent.KeyboardLock = false;
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                this.bkspClick.emit(event);
-                break;
-            case KeyboardClassKey.Caps:
-                this.capsClick.emit(event);
-                break;
-            case KeyboardClassKey.Enter:
-                if (this._isTextarea()) {
-                    char = VALUE_NEWLINE;
-                }
-                else {
+            });
+        });
+    };
+    MatKeyboardKeyComponent.prototype.onClick = function (event) {
+        if (!MatKeyboardKeyComponent.KeyboardLock) {
+            MatKeyboardKeyComponent.lockKeyboard(KEYBOARD_LOCK_DURATION_MS);
+            this._triggerKeyEvent();
+            this.genericClick.emit(event);
+            var value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
+            var caretStart = this.input ? this._getCursorPosition().start : 0;
+            var caretEnd = this.input ? this._getCursorPosition().end : 0;
+            if (caretEnd !== caretStart) {
+                value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
+                this._setCursorPosition(caretStart);
+            }
+            var char = void 0;
+            switch (this.key) {
+                case KeyboardClassKey.Alt:
+                case KeyboardClassKey.AltGr:
+                case KeyboardClassKey.AltLk:
+                    this.altClick.emit(event);
+                    break;
+                case KeyboardClassKey.Bksp:
+                    this.deleteSelectedText(caretStart, caretEnd, value);
                     if (this.input && this.input.nativeElement) {
                         this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                     }
-                    this.enterClick.emit(event);
-                    // TODO: trigger submit / onSubmit / ngSubmit properly (for the time being this has to be handled by the user himself)
-                    // console.log(this.control.ngControl.control.root)
-                    // this.input.nativeElement.form.submit();
-                }
-                break;
-            case KeyboardClassKey.Shift:
-                this.shiftClick.emit(event);
-                break;
-            case KeyboardClassKey.Space:
-                char = VALUE_SPACE;
+                    this.bkspClick.emit(event);
+                    break;
+                case KeyboardClassKey.Caps:
+                    this.capsClick.emit(event);
+                    break;
+                case KeyboardClassKey.Enter:
+                    if (this._isTextarea()) {
+                        char = VALUE_NEWLINE;
+                    }
+                    else {
+                        if (this.input && this.input.nativeElement) {
+                            this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                        this.enterClick.emit(event);
+                    }
+                    break;
+                case KeyboardClassKey.Shift:
+                    this.shiftClick.emit(event);
+                    break;
+                case KeyboardClassKey.Space:
+                    char = VALUE_SPACE;
+                    if (this.input && this.input.nativeElement) {
+                        this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                    this.spaceClick.emit(event);
+                    break;
+                case KeyboardClassKey.Tab:
+                    char = VALUE_TAB;
+                    this.tabClick.emit(event);
+                    break;
+                default:
+                    char = "" + this.key;
+                    this.keyClick.emit(event);
+                    break;
+            }
+            if (char && this.input) {
+                this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
+                this._setCursorPosition(caretStart + 1);
                 if (this.input && this.input.nativeElement) {
                     this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                 }
-                this.spaceClick.emit(event);
-                break;
-            case KeyboardClassKey.Tab:
-                char = VALUE_TAB;
-                this.tabClick.emit(event);
-                break;
-            default:
-                // the key is not mapped or a string
-                char = `${this.key}`;
-                this.keyClick.emit(event);
-                break;
-        }
-        if (char && this.input) {
-            this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
-            this._setCursorPosition(caretStart + 1);
-            if (this.input && this.input.nativeElement) {
-                this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
-    }
-    /**
-     * @param {?} caretStart
-     * @param {?} caretEnd
-     * @param {?} value
-     * @return {?}
-     */
-    deleteSelectedText(caretStart, caretEnd, value) {
+    };
+    MatKeyboardKeyComponent.prototype.deleteSelectedText = function (caretStart, caretEnd, value) {
         if (caretEnd === caretStart && caretStart !== 0) {
             this.inputValue = [value.slice(0, caretStart - 1), value.slice(caretStart)].join('');
             this._setCursorPosition(caretStart - 1);
@@ -7447,59 +7120,33 @@ class MatKeyboardKeyComponent {
             this.inputValue = value;
             this._setCursorPosition(caretStart);
         }
-    }
-    /**
-     * @return {?}
-     */
-    _triggerKeyEvent() {
-        const /** @type {?} */ keyboardEvent = new KeyboardEvent('keydown');
-        //
-        // keyboardEvent[initMethod](
-        //   true, // bubbles
-        //   true, // cancelable
-        //   window, // viewArg: should be window
-        //   false, // ctrlKeyArg
-        //   false, // altKeyArg
-        //   false, // shiftKeyArg
-        //   false, // metaKeyArg
-        //   this.charCode, // keyCodeArg : unsigned long - the virtual key code, else 0
-        //   0 // charCodeArgs : unsigned long - the Unicode character associated with the depressed key, else 0
-        // );
-        //
-        // window.document.dispatchEvent(keyboardEvent);
+    };
+    MatKeyboardKeyComponent.prototype._triggerKeyEvent = function () {
+        var keyboardEvent = new KeyboardEvent('keydown');
         return keyboardEvent;
-    }
-    /**
-     * @return {?}
-     */
-    _getCursorPosition() {
+    };
+    MatKeyboardKeyComponent.prototype._getCursorPosition = function () {
         if (!this.input) {
             return;
         }
         if ('selectionEnd' in this.input.nativeElement && 'selectionStart' in this.input.nativeElement) {
-            // Standard-compliant browsers
             return {
                 start: this.input.nativeElement.selectionStart,
                 end: this.input.nativeElement.selectionEnd
             };
         }
         else if (window.document['selection']) {
-            // IE
             this.input.nativeElement.focus();
-            const /** @type {?} */ el = this.input.nativeElement;
-            const /** @type {?} */ range = window.document['selection'].createRange();
-            let /** @type {?} */ start = 0;
-            let /** @type {?} */ end = 0;
+            var el = this.input.nativeElement;
+            var range = window.document['selection'].createRange();
+            var start = 0;
+            var end = 0;
             if (range && range.parentElement() === el) {
-                const /** @type {?} */ len = el.value.length;
-                const /** @type {?} */ normalizedValue = el.value.replace(/\r\n/g, '\n');
-                // Create a working TextRange that lives only in the input
-                const /** @type {?} */ textInputRange = el.createTextRange();
+                var len = el.value.length;
+                var normalizedValue = el.value.replace(/\r\n/g, '\n');
+                var textInputRange = el.createTextRange();
                 textInputRange.moveToBookmark(range.getBookmark());
-                // Check if the start and end of the selection are at the very end
-                // of the input, since moveStart/moveEnd doesn't return what we want
-                // in those cases
-                const /** @type {?} */ endRange = el.createTextRange();
+                var endRange = el.createTextRange();
                 endRange.collapse(false);
                 if (textInputRange.compareEndPoints('StartToEnd', endRange) > -1) {
                     start = end = len;
@@ -7521,29 +7168,21 @@ class MatKeyboardKeyComponent {
                 end: end
             };
         }
-    }
-    /**
-     * @param {?} position
-     * @return {?}
-     */
-    _setCursorPosition(position) {
+    };
+    MatKeyboardKeyComponent.prototype._setCursorPosition = function (position) {
         if (!this.input) {
             return;
         }
         if (this.control) {
             this.inputValue = this.control.value;
         }
-        // ^ this is used to not only get "focus", but
-        // to make sure we don't have it everything -selected-
-        // (it causes an issue in chrome, and having it doesn't hurt any other browser)
         if ('createTextRange' in this.input.nativeElement) {
-            const /** @type {?} */ range = this.input.nativeElement.createTextRange();
+            var range = this.input.nativeElement.createTextRange();
             range.move('character', position);
             range.select();
             return true;
         }
         else {
-            // (el.selectionStart === 0 added for Firefox bug)
             if (this.input.nativeElement.selectionStart || this.input.nativeElement.selectionStart === 0) {
                 this.input.nativeElement.focus();
                 this.input.nativeElement.setSelectionRange(position, position);
@@ -7554,124 +7193,26 @@ class MatKeyboardKeyComponent {
                 return false;
             }
         }
-    }
-    /**
-     * @return {?}
-     */
-    _isTextarea() {
+    };
+    MatKeyboardKeyComponent.prototype._isTextarea = function () {
         return this.input && this.input.nativeElement && this.input.nativeElement.tagName === 'TEXTAREA';
-    }
-}
+    };
+    return MatKeyboardKeyComponent;
+}());
+MatKeyboardKeyComponent.KeyboardLock = false;
 MatKeyboardKeyComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mat-keyboard-key',
-                template: `<button mat-raised-button
-        class="mat-keyboard-key"
-        tabindex="-1"
-        [class.mat-keyboard-key-active]="active$ | async"
-        [class.mat-keyboard-key-pressed]="pressed$ | async"
-        [ngClass]="cssClass"
-        (click)="onClick($event)"
->
-  <mat-icon *ngIf="hasIcon">{{ icon }}</mat-icon>
-  <ng-container *ngIf="!hasIcon">{{ key }}</ng-container>
-</button>
-`,
-                styles: [`@charset "UTF-8";
-:host{
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
-  font-family:Roboto, "Helvetica Neue", sans-serif;
-  font-size:14px;
-  -webkit-box-pack:justify;
-      -ms-flex-pack:justify;
-          justify-content:space-between;
-  line-height:20px; }
-
-.mat-keyboard-key{
-  min-width:0;
-  width:100%; }
-  .mat-keyboard-key-active{
-    background-color:#e0e0e0; }
-  .mat-keyboard-key-pressed{
-    background-color:#bdbdbd; }
-  .mat-keyboard-key-capslock{
-    background-color:white; }
-    .mat-keyboard-key-capslock:before{
-      background-color:#bdbdbd;
-      border-radius:100%;
-      content:'';
-      display:inline-block;
-      height:3px;
-      left:5px;
-      position:absolute;
-      top:5px;
-      -webkit-transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-      transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-      -webkit-transition-property:background-color, -webkit-box-shadow;
-      transition-property:background-color, -webkit-box-shadow;
-      transition-property:background-color, box-shadow;
-      transition-property:background-color, box-shadow, -webkit-box-shadow;
-      width:3px; }
-    .mat-keyboard-key-capslock.mat-keyboard-key-active:before{
-      background-color:#0f0;
-      -webkit-box-shadow:0 0 §px #adff2f;
-              box-shadow:0 0 §px #adff2f; }
-
-:host-context(.dark-theme) .mat-keyboard-key{
-  background-color:#616161;
-  color:whitesmoke; }
-  :host-context(.dark-theme) .mat-keyboard-key-active{
-    background-color:#9e9e9e; }
-  :host-context(.dark-theme) .mat-keyboard-key-pressed{
-    background-color:#757575; }
-
-:host-context(.debug) .mat-keyboard-key-deadkey{
-  background-color:cadetblue; }
-
-:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{
-  background-color:#6fa8aa; }
-
-:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{
-  background-color:#7fb1b3; }
-
-:host-context(.debug) .mat-keyboard-key-modifier{
-  background-color:aquamarine; }
-
-:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{
-  background-color:#99ffdd; }
-
-:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{
-  background-color:#b2ffe5; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey{
-  background-color:rebeccapurple; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{
-  background-color:#7339ac; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{
-  background-color:#8040bf; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-modifier{
-  background-color:mediumpurple; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{
-  background-color:#a284e0; }
-
-:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{
-  background-color:#b299e5; }
-`],
+                template: "<button mat-raised-button\n        class=\"mat-keyboard-key\"\n        tabindex=\"-1\"\n        [class.mat-keyboard-key-active]=\"active$ | async\"\n        [class.mat-keyboard-key-pressed]=\"pressed$ | async\"\n        [ngClass]=\"cssClass\"\n        (click)=\"onClick($event)\"\n>\n  <mat-icon *ngIf=\"hasIcon\">{{ icon }}</mat-icon>\n  <ng-container *ngIf=\"!hasIcon\">{{ key }}</ng-container>\n</button>\n",
+                styles: ["@charset \"UTF-8\";\n:host{\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px; }\n\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n  .mat-keyboard-key-active{\n    background-color:#e0e0e0; }\n  .mat-keyboard-key-pressed{\n    background-color:#bdbdbd; }\n  .mat-keyboard-key-capslock{\n    background-color:white; }\n    .mat-keyboard-key-capslock:before{\n      background-color:#bdbdbd;\n      border-radius:100%;\n      content:'';\n      display:inline-block;\n      height:3px;\n      left:5px;\n      position:absolute;\n      top:5px;\n      -webkit-transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      -webkit-transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, box-shadow;\n      transition-property:background-color, box-shadow, -webkit-box-shadow;\n      width:3px; }\n    .mat-keyboard-key-capslock.mat-keyboard-key-active:before{\n      background-color:#0f0;\n      -webkit-box-shadow:0 0 \u00A7px #adff2f;\n              box-shadow:0 0 \u00A7px #adff2f; }\n\n:host-context(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n  :host-context(.dark-theme) .mat-keyboard-key-active{\n    background-color:#9e9e9e; }\n  :host-context(.dark-theme) .mat-keyboard-key-pressed{\n    background-color:#757575; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#6fa8aa; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#7fb1b3; }\n\n:host-context(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#99ffdd; }\n\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b2ffe5; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#7339ac; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#8040bf; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#a284e0; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b299e5; }\n"],
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 preserveWhitespaces: false
             },] },
 ];
-/** @nocollapse */
-MatKeyboardKeyComponent.ctorParameters = () => [
+MatKeyboardKeyComponent.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: Inject, args: [MAT_KEYBOARD_DEADKEYS,] },] },
     { type: undefined, decorators: [{ type: Inject, args: [MAT_KEYBOARD_ICONS,] },] },
-];
+]; };
 MatKeyboardKeyComponent.propDecorators = {
     "key": [{ type: Input },],
     "active": [{ type: Input },],
@@ -7688,21 +7229,8 @@ MatKeyboardKeyComponent.propDecorators = {
     "tabClick": [{ type: Output },],
     "keyClick": [{ type: Output },],
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * A component used to open as the default keyboard, matching material spec.
- * This should only be used internally by the keyboard service.
- */
-class MatKeyboardComponent {
-    /**
-     * @param {?} _locale
-     * @param {?} _keyboardService
-     */
-    constructor(_locale, _keyboardService) {
+var MatKeyboardComponent = /** @class */ (function () {
+    function MatKeyboardComponent(_locale, _keyboardService) {
         this._locale = _locale;
         this._keyboardService = _keyboardService;
         this._darkTheme = new BehaviorSubject(false);
@@ -7716,109 +7244,79 @@ class MatKeyboardComponent {
         this.altClick = new EventEmitter();
         this.shiftClick = new EventEmitter();
     }
-    /**
-     * @return {?}
-     */
-    get inputInstance() {
-        return this._inputInstance$.asObservable();
-    }
-    /**
-     * @param {?} darkTheme
-     * @return {?}
-     */
-    set darkTheme(darkTheme) {
-        if (this._darkTheme.getValue() !== darkTheme) {
-            this._darkTheme.next(darkTheme);
-        }
-    }
-    /**
-     * @param {?} isDebug
-     * @return {?}
-     */
-    set isDebug(isDebug) {
-        if (this._isDebug.getValue() !== isDebug) {
-            this._isDebug.next(isDebug);
-        }
-    }
-    /**
-     * @return {?}
-     */
-    get darkTheme$() {
-        return this._darkTheme.asObservable();
-    }
-    /**
-     * @return {?}
-     */
-    get isDebug$() {
-        return this._isDebug.asObservable();
-    }
-    /**
-     * @param {?} inputInstance
-     * @return {?}
-     */
-    setInputInstance(inputInstance) {
+    Object.defineProperty(MatKeyboardComponent.prototype, "inputInstance", {
+        get: function () {
+            return this._inputInstance$.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardComponent.prototype, "darkTheme", {
+        set: function (darkTheme) {
+            if (this._darkTheme.getValue() !== darkTheme) {
+                this._darkTheme.next(darkTheme);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardComponent.prototype, "isDebug", {
+        set: function (isDebug) {
+            if (this._isDebug.getValue() !== isDebug) {
+                this._isDebug.next(isDebug);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardComponent.prototype, "darkTheme$", {
+        get: function () {
+            return this._darkTheme.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MatKeyboardComponent.prototype, "isDebug$", {
+        get: function () {
+            return this._isDebug.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MatKeyboardComponent.prototype.setInputInstance = function (inputInstance) {
         this._inputInstance$.next(inputInstance);
-    }
-    /**
-     * @param {?} control
-     * @return {?}
-     */
-    attachControl(control) {
+    };
+    MatKeyboardComponent.prototype.attachControl = function (control) {
         this.control = control;
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        // set a fallback using the locale
+    };
+    MatKeyboardComponent.prototype.ngOnInit = function () {
         if (!this.layout) {
             this.locale = this._keyboardService.mapLocale(this._locale) ? this._locale : 'en-US';
             this.layout = this._keyboardService.getLayoutForLocale(this.locale);
         }
-    }
-    /**
-     * dismisses the keyboard
-     * @return {?}
-     */
-    dismiss() {
+    };
+    MatKeyboardComponent.prototype.dismiss = function () {
         this.keyboardRef.dismiss();
-    }
-    /**
-     * checks if a given key is currently pressed
-     * @param {?} key
-     * @return {?}
-     */
-    isActive(key) {
-        const /** @type {?} */ modifiedKey = this.getModifiedKey(key);
-        const /** @type {?} */ isActiveCapsLock = modifiedKey === KeyboardClassKey.Caps && this._capsLocked;
-        const /** @type {?} */ isActiveModifier = modifiedKey === KeyboardModifier[this._modifier];
+    };
+    MatKeyboardComponent.prototype.isActive = function (key) {
+        var modifiedKey = this.getModifiedKey(key);
+        var isActiveCapsLock = modifiedKey === KeyboardClassKey.Caps && this._capsLocked;
+        var isActiveModifier = modifiedKey === KeyboardModifier[this._modifier];
         return isActiveCapsLock || isActiveModifier;
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    getModifiedKey(key) {
-        let /** @type {?} */ modifier = this._modifier;
-        // `CapsLock` inverts the meaning of `Shift`
+    };
+    MatKeyboardComponent.prototype.getModifiedKey = function (key) {
+        var modifier = this._modifier;
         if (this._capsLocked) {
             modifier = this._invertShiftModifier(this._modifier);
         }
         return key[modifier];
-    }
-    /**
-     * listens to users keyboard inputs to simulate on virtual keyboard, too
-     * @param {?} event
-     * @return {?}
-     */
-    onKeyDown(event) {
-        // 'activate' corresponding key
+    };
+    MatKeyboardComponent.prototype.onKeyDown = function (event) {
         this._keys
-            .filter((key) => key.key === event.key)
-            .forEach((key) => {
+            .filter(function (key) { return key.key === event.key; })
+            .forEach(function (key) {
             key.pressed = true;
         });
-        // simulate modifier press
         if (event.key === KeyboardClassKey.Caps) {
             this.onCapsClick(event.getModifierState(KeyboardClassKey.Caps));
         }
@@ -7828,71 +7326,37 @@ class MatKeyboardComponent {
         if (event.key === KeyboardClassKey.Shift && this._modifier !== KeyboardModifier.Shift && this._modifier !== KeyboardModifier.ShiftAlt) {
             this.onShiftClick();
         }
-    }
-    /**
-     * listens to users keyboard inputs to simulate on virtual keyboard, too
-     * @param {?} event
-     * @return {?}
-     */
-    onKeyUp(event) {
-        // 'deactivate' corresponding key
+    };
+    MatKeyboardComponent.prototype.onKeyUp = function (event) {
         this._keys
-            .filter((key) => key.key === event.key)
-            .forEach((key) => {
+            .filter(function (key) { return key.key === event.key; })
+            .forEach(function (key) {
             key.pressed = false;
         });
-        // simulate modifier release
         if (event.key === KeyboardClassKey.Alt && (this._modifier === KeyboardModifier.Alt || this._modifier === KeyboardModifier.ShiftAlt)) {
             this.onAltClick();
         }
         if (event.key === KeyboardClassKey.Shift && (this._modifier === KeyboardModifier.Shift || this._modifier === KeyboardModifier.ShiftAlt)) {
             this.onShiftClick();
         }
-    }
-    /**
-     * bubbles event if submit is potentially triggered
-     * @return {?}
-     */
-    onEnterClick() {
-        // notify subscribers
+    };
+    MatKeyboardComponent.prototype.onEnterClick = function () {
         this.enterClick.next();
-    }
-    /**
-     * simulates clicking `CapsLock` key
-     * @param {?=} targetState
-     * @return {?}
-     */
-    onCapsClick(targetState = !this._capsLocked) {
-        // not implemented
+    };
+    MatKeyboardComponent.prototype.onCapsClick = function (targetState) {
+        if (targetState === void 0) { targetState = !this._capsLocked; }
         this._capsLocked = targetState;
-        // notify subscribers
         this.capsClick.next();
-    }
-    /**
-     * simulates clicking `Alt` key
-     * @return {?}
-     */
-    onAltClick() {
-        // invert modifier meaning
+    };
+    MatKeyboardComponent.prototype.onAltClick = function () {
         this._modifier = this._invertAltModifier(this._modifier);
-        // notify subscribers
         this.altClick.next();
-    }
-    /**
-     * simulates clicking `Shift` key
-     * @return {?}
-     */
-    onShiftClick() {
-        // invert modifier meaning
+    };
+    MatKeyboardComponent.prototype.onShiftClick = function () {
         this._modifier = this._invertShiftModifier(this._modifier);
-        // notify subscribers
         this.shiftClick.next();
-    }
-    /**
-     * @param {?} modifier
-     * @return {?}
-     */
-    _invertAltModifier(modifier) {
+    };
+    MatKeyboardComponent.prototype._invertAltModifier = function (modifier) {
         switch (modifier) {
             case KeyboardModifier.None:
                 return KeyboardModifier.Alt;
@@ -7903,12 +7367,8 @@ class MatKeyboardComponent {
             case KeyboardModifier.Alt:
                 return KeyboardModifier.None;
         }
-    }
-    /**
-     * @param {?} modifier
-     * @return {?}
-     */
-    _invertShiftModifier(modifier) {
+    };
+    MatKeyboardComponent.prototype._invertShiftModifier = function (modifier) {
         switch (modifier) {
             case KeyboardModifier.None:
                 return KeyboardModifier.Shift;
@@ -7919,139 +7379,30 @@ class MatKeyboardComponent {
             case KeyboardModifier.Shift:
                 return KeyboardModifier.None;
         }
-    }
-}
+    };
+    return MatKeyboardComponent;
+}());
 MatKeyboardComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mat-keyboard',
-                template: `<div class="mat-keyboard-wrapper"
-     [class.dark-theme]="darkTheme$ | async"
-     [class.debug]="isDebug$ | async"
->
-  <nav class="mat-keyboard-layout">
-    <div class="mat-keyboard-row"
-         *ngFor="let row of layout.keys"
-    >
-      <ng-container *ngFor="let key of row">
-        <mat-keyboard-key class="mat-keyboard-col"
-                          *ngIf="getModifiedKey(key)"
-                          [key]="getModifiedKey(key)"
-                          [active]="isActive(key)"
-                          [input]="inputInstance | async"
-                          [control]="control"
-                          (enterClick)="onEnterClick()"
-                          (capsClick)="onCapsClick()"
-                          (altClick)="onAltClick()"
-                          (shiftClick)="onShiftClick()"
-        ></mat-keyboard-key>
-      </ng-container>
-    </div>
-  </nav>
-</div>
-`,
-                styles: [`.mat-keyboard-wrapper{
-  background-color:whitesmoke;
-  border-radius:2px;
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
-  font-family:Roboto, "Helvetica Neue", sans-serif;
-  font-size:14px;
-  -webkit-box-pack:justify;
-      -ms-flex-pack:justify;
-          justify-content:space-between;
-  line-height:20px;
-  padding:14px 24px; }
-  .mat-keyboard-wrapper.dark-theme{
-    background-color:#424242; }
-
-.mat-keyboard-action{
-  background:none;
-  color:inherit;
-  -ms-flex-negative:0;
-      flex-shrink:0;
-  font-family:inherit;
-  font-size:inherit;
-  font-weight:600;
-  line-height:1;
-  margin-left:8px;
-  text-transform:uppercase; }
-
-:host(.dark-theme) .mat-keyboard-action{
-  color:whitesmoke; }
-
-.mat-keyboard-layout{
-  width:100%; }
-
-.mat-keyboard-row{
-  -webkit-box-align:stretch;
-      -ms-flex-align:stretch;
-          align-items:stretch;
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
-  -webkit-box-orient:horizontal;
-  -webkit-box-direction:normal;
-      -ms-flex-direction:row;
-          flex-direction:row;
-  -ms-flex-wrap:nowrap;
-      flex-wrap:nowrap; }
-
-.mat-keyboard-col{
-  -webkit-box-sizing:border-box;
-          box-sizing:border-box;
-  -webkit-box-flex:1;
-      -ms-flex:1 1 auto;
-          flex:1 1 auto;
-  padding:4px; }
-
-.mat-keyboard-key{
-  min-width:0;
-  width:100%; }
-
-:host(.dark-theme) .mat-keyboard-key{
-  background-color:#616161;
-  color:whitesmoke; }
-
-:host(.debug) .mat-keyboard-key-deadkey{
-  background-color:cadetblue; }
-
-:host(.debug) .mat-keyboard-key-modifier{
-  background-color:aquamarine; }
-
-:host(.debug.dark-theme) .mat-keyboard-key-deadkey{
-  background-color:rebeccapurple; }
-
-:host(.debug.dark-theme) .mat-keyboard-key-modifier{
-  background-color:mediumpurple; }
-`],
+                template: "<div class=\"mat-keyboard-wrapper\"\n     [class.dark-theme]=\"darkTheme$ | async\"\n     [class.debug]=\"isDebug$ | async\"\n>\n  <nav class=\"mat-keyboard-layout\">\n    <div class=\"mat-keyboard-row\"\n         *ngFor=\"let row of layout.keys\"\n    >\n      <ng-container *ngFor=\"let key of row\">\n        <mat-keyboard-key class=\"mat-keyboard-col\"\n                          *ngIf=\"getModifiedKey(key)\"\n                          [key]=\"getModifiedKey(key)\"\n                          [active]=\"isActive(key)\"\n                          [input]=\"inputInstance | async\"\n                          [control]=\"control\"\n                          (enterClick)=\"onEnterClick()\"\n                          (capsClick)=\"onCapsClick()\"\n                          (altClick)=\"onAltClick()\"\n                          (shiftClick)=\"onShiftClick()\"\n        ></mat-keyboard-key>\n      </ng-container>\n    </div>\n  </nav>\n</div>\n",
+                styles: [".mat-keyboard-wrapper{\n  background-color:whitesmoke;\n  border-radius:2px;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px;\n  padding:14px 24px; }\n  .mat-keyboard-wrapper.dark-theme{\n    background-color:#424242; }\n\n.mat-keyboard-action{\n  background:none;\n  color:inherit;\n  -ms-flex-negative:0;\n      flex-shrink:0;\n  font-family:inherit;\n  font-size:inherit;\n  font-weight:600;\n  line-height:1;\n  margin-left:8px;\n  text-transform:uppercase; }\n\n:host(.dark-theme) .mat-keyboard-action{\n  color:whitesmoke; }\n\n.mat-keyboard-layout{\n  width:100%; }\n\n.mat-keyboard-row{\n  -webkit-box-align:stretch;\n      -ms-flex-align:stretch;\n          align-items:stretch;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  -webkit-box-orient:horizontal;\n  -webkit-box-direction:normal;\n      -ms-flex-direction:row;\n          flex-direction:row;\n  -ms-flex-wrap:nowrap;\n      flex-wrap:nowrap; }\n\n.mat-keyboard-col{\n  -webkit-box-sizing:border-box;\n          box-sizing:border-box;\n  -webkit-box-flex:1;\n      -ms-flex:1 1 auto;\n          flex:1 1 auto;\n  padding:4px; }\n\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n\n:host(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n\n:host(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n\n:host(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n\n:host(.debug.dark-theme) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n\n:host(.debug.dark-theme) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n"],
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 preserveWhitespaces: false
             },] },
 ];
-/** @nocollapse */
-MatKeyboardComponent.ctorParameters = () => [
+MatKeyboardComponent.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
     { type: MatKeyboardService, },
-];
+]; };
 MatKeyboardComponent.propDecorators = {
     "_keys": [{ type: ViewChildren, args: [MatKeyboardKeyComponent,] },],
     "cssClass": [{ type: HostBinding, args: ['class.mat-keyboard',] },],
     "onKeyDown": [{ type: HostListener, args: ['document:keydown', ['$event'],] },],
     "onKeyUp": [{ type: HostListener, args: ['document:keyup', ['$event'],] },],
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-class MatKeyboardDirective {
-    /**
-     * @param {?} _elementRef
-     * @param {?} _keyboardService
-     * @param {?=} _control
-     */
-    constructor(_elementRef, _keyboardService, _control) {
+var MatKeyboardDirective = /** @class */ (function () {
+    function MatKeyboardDirective(_elementRef, _keyboardService, _control) {
         this._elementRef = _elementRef;
         this._keyboardService = _keyboardService;
         this._control = _control;
@@ -8060,53 +7411,42 @@ class MatKeyboardDirective {
         this.altClick = new EventEmitter();
         this.shiftClick = new EventEmitter();
     }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
+    MatKeyboardDirective.prototype.ngOnDestroy = function () {
         this._hideKeyboard();
-    }
-    /**
-     * @return {?}
-     */
-    _showKeyboard() {
+    };
+    MatKeyboardDirective.prototype._showKeyboard = function () {
+        var _this = this;
         this._keyboardRef = this._keyboardService.open(this.matKeyboard, {
             darkTheme: this.darkTheme,
             duration: this.duration,
             isDebug: this.isDebug
         });
-        // reference the input element
         this._keyboardRef.instance.setInputInstance(this._elementRef);
-        // set control if given, cast to smth. non-abstract
         if (this._control) {
             this._keyboardRef.instance.attachControl(this._control.control);
         }
-        // connect outputs
-        this._keyboardRef.instance.enterClick.subscribe(() => this.enterClick.next());
-        this._keyboardRef.instance.capsClick.subscribe(() => this.capsClick.next());
-        this._keyboardRef.instance.altClick.subscribe(() => this.altClick.next());
-        this._keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.next());
-    }
-    /**
-     * @return {?}
-     */
-    _hideKeyboard() {
+        this._keyboardRef.instance.enterClick.subscribe(function () { return _this.enterClick.next(); });
+        this._keyboardRef.instance.capsClick.subscribe(function () { return _this.capsClick.next(); });
+        this._keyboardRef.instance.altClick.subscribe(function () { return _this.altClick.next(); });
+        this._keyboardRef.instance.shiftClick.subscribe(function () { return _this.shiftClick.next(); });
+    };
+    MatKeyboardDirective.prototype._hideKeyboard = function () {
         if (this._keyboardRef) {
             this._keyboardRef.dismiss();
         }
-    }
-}
+    };
+    return MatKeyboardDirective;
+}());
 MatKeyboardDirective.decorators = [
     { type: Directive, args: [{
                 selector: 'input[matKeyboard], textarea[matKeyboard]'
             },] },
 ];
-/** @nocollapse */
-MatKeyboardDirective.ctorParameters = () => [
+MatKeyboardDirective.ctorParameters = function () { return [
     { type: ElementRef, },
     { type: MatKeyboardService, },
     { type: NgControl, decorators: [{ type: Optional }, { type: Self },] },
-];
+]; };
 MatKeyboardDirective.propDecorators = {
     "matKeyboard": [{ type: Input },],
     "darkTheme": [{ type: Input },],
@@ -8119,40 +7459,31 @@ MatKeyboardDirective.propDecorators = {
     "_showKeyboard": [{ type: HostListener, args: ['focus', ['$event'],] },],
     "_hideKeyboard": [{ type: HostListener, args: ['blur', ['$event'],] },],
 };
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-class MatKeyboardKebabCasePipe {
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    transform(value) {
+var MatKeyboardKebabCasePipe = /** @class */ (function () {
+    function MatKeyboardKebabCasePipe() {
+    }
+    MatKeyboardKebabCasePipe.prototype.transform = function (value) {
         return value.replace(/([a-z])([A-Z])/g, '$1-$2')
             .replace(/\s+/g, '-')
             .toLowerCase();
-    }
-}
+    };
+    return MatKeyboardKebabCasePipe;
+}());
 MatKeyboardKebabCasePipe.decorators = [
     { type: Pipe, args: [{
                 name: 'matKeyboardKebabCase',
                 pure: false
             },] },
 ];
-/** @nocollapse */
-MatKeyboardKebabCasePipe.ctorParameters = () => [];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-const ɵ0 = keyboardDeadkeys;
-const ɵ1 = keyboardIcons;
-const ɵ2 = keyboardLayouts;
-class MatKeyboardModule {
-}
+MatKeyboardKebabCasePipe.ctorParameters = function () { return []; };
+var ɵ0 = keyboardDeadkeys;
+var ɵ1 = keyboardIcons;
+var ɵ2 = keyboardLayouts;
+var MatKeyboardModule = /** @class */ (function () {
+    function MatKeyboardModule() {
+    }
+    return MatKeyboardModule;
+}());
 MatKeyboardModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
@@ -8191,21 +7522,8 @@ MatKeyboardModule.decorators = [
                 ]
             },] },
 ];
-/** @nocollapse */
-MatKeyboardModule.ctorParameters = () => [];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-/**
- * Generated bundle index. Do not edit.
- */
+MatKeyboardModule.ctorParameters = function () { return []; };
+var _a;
 
 export { MatKeyboardRef, MatKeyboardComponent, SHOW_ANIMATION, HIDE_ANIMATION, MatKeyboardContainerComponent, VALUE_NEWLINE, VALUE_SPACE, VALUE_TAB, MatKeyboardKeyComponent, MatKeyboardConfig, MAT_KEYBOARD_DEADKEYS, keyboardDeadkeys, MAT_KEYBOARD_ICONS, keyboardIcons, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardDirective, KeyboardClassKey, KeyboardModifier, KeyboardAnimationState, KeyboardAnimationTransition, MatKeyboardKebabCasePipe, MatKeyboardService, _applyConfigDefaults, _applyAvailableLayouts, MatKeyboardModule };
-//# sourceMappingURL=ngx-material-keyboard-core.js.map
+//# sourceMappingURL=wfm-ngx-material-keyboard-core.js.map
