@@ -1,6 +1,6 @@
 # Output Directories #
 build/
-dist/
+!./dist/core
 # core/
 docs/
 # src/

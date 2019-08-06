@@ -1,5 +1,5 @@
 {
-  "name": "wfm-ngx-material-keyboard-core",
+  "name": "ngx-material-keyboard-src",
   "version": "0.1.6",
   "description": "Onscreen virtual keyboard for Angular ≥ 5 (https://angular.io/) using Material 2 (https://material.angular.io/).",
   "repository": {
@@ -31,8 +31,8 @@
     "preversion": "cd src/core && npm --no-git-tag-version version patch && git add package.json",
     "push": "git push && git push --tags",
     "prerelease": "npm version patch && npm run push",
-    "release": "npm run build",
-    "postrelease": "npm publish --access=public"
+    "release": "npm run build && git add -A dist/core",
+    "postrelease": "cd dist/core && npm publish --access=public"
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
