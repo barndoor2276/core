@@ -1,0 +1,1 @@
+export const KEYBOARD_LOCK_DURATION_MS = 25;
