@@ -30,7 +30,7 @@
     "push": "git push && git push --tags",
     "publish": "cd dist/core && npm publish --access=public",
     "prerelease": "npm version patch",
-    "release": "echo success"
+    "release": "npm run publish"
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
