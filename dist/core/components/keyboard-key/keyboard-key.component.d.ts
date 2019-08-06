@@ -12,6 +12,7 @@ export declare class MatKeyboardKeyComponent implements OnInit {
     private _icons;
     private _deadkeyKeys;
     private _iconKeys;
+    private static KeyboardLock;
     active$: BehaviorSubject<boolean>;
     pressed$: BehaviorSubject<boolean>;
     key: string | KeyboardClassKey;
@@ -38,6 +39,7 @@ export declare class MatKeyboardKeyComponent implements OnInit {
     inputValue: string;
     constructor(_deadkeys: IKeyboardDeadkeys, _icons: IKeyboardIcons);
     ngOnInit(): void;
+    private static lockKeyboard(ms);
     onClick(event: MouseEvent): void;
     private deleteSelectedText(caretStart, caretEnd, value);
     private _triggerKeyEvent();

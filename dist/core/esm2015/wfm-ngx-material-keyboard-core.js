@@ -6,6 +6,7 @@ import { AnimationCurves, AnimationDurations, MatCommonModule } from '@angular/m
 import 'rxjs/add/operator/first';
 import { LiveAnnouncer, LIVE_ANNOUNCER_PROVIDER } from '@angular/cdk/a11y';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
+import { __awaiter } from 'tslib';
 import { NgControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { CommonModule } from '@angular/common';
@@ -7217,6 +7218,12 @@ const keyboardIcons = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+const KEYBOARD_LOCK_DURATION_MS = 25;
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 const VALUE_NEWLINE = '\n\r';
 const VALUE_SPACE = ' ';
 const VALUE_TAB = '\t';
@@ -7354,81 +7361,98 @@ class MatKeyboardKeyComponent {
         this._iconKeys = Object.keys(this._icons);
     }
     /**
+     * @param {?} ms
+     * @return {?}
+     */
+    static lockKeyboard(ms) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield new Promise(resolve => {
+                MatKeyboardKeyComponent.KeyboardLock = true;
+                setTimeout(resolve, ms);
+            }).then(() => {
+                MatKeyboardKeyComponent.KeyboardLock = false;
+            });
+        });
+    }
+    /**
      * @param {?} event
      * @return {?}
      */
     onClick(event) {
-        // Trigger a global key event
-        // TODO: investigate
-        this._triggerKeyEvent();
-        // Trigger generic click event
-        this.genericClick.emit(event);
-        // Manipulate the focused input / textarea value
-        let /** @type {?} */ value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
-        const /** @type {?} */ caretStart = this.input ? this._getCursorPosition().start : 0;
-        const /** @type {?} */ caretEnd = this.input ? this._getCursorPosition().end : 0;
-        if (caretEnd !== caretStart) {
-            value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
-            this._setCursorPosition(caretStart);
-        }
-        let /** @type {?} */ char;
-        switch (this.key) {
-            // this keys have no actions yet
-            // TODO: add deadkeys and modifiers
-            case KeyboardClassKey.Alt:
-            case KeyboardClassKey.AltGr:
-            case KeyboardClassKey.AltLk:
-                this.altClick.emit(event);
-                break;
-            case KeyboardClassKey.Bksp:
-                this.deleteSelectedText(caretStart, caretEnd, value);
-                if (this.input && this.input.nativeElement) {
-                    this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                this.bkspClick.emit(event);
-                break;
-            case KeyboardClassKey.Caps:
-                this.capsClick.emit(event);
-                break;
-            case KeyboardClassKey.Enter:
-                if (this._isTextarea()) {
-                    char = VALUE_NEWLINE;
-                }
-                else {
+        if (!MatKeyboardKeyComponent.KeyboardLock) {
+            MatKeyboardKeyComponent.lockKeyboard(KEYBOARD_LOCK_DURATION_MS);
+            // Trigger a global key event
+            // TODO: investigate
+            this._triggerKeyEvent();
+            // Trigger generic click event
+            this.genericClick.emit(event);
+            // Manipulate the focused input / textarea value
+            let /** @type {?} */ value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
+            const /** @type {?} */ caretStart = this.input ? this._getCursorPosition().start : 0;
+            const /** @type {?} */ caretEnd = this.input ? this._getCursorPosition().end : 0;
+            if (caretEnd !== caretStart) {
+                value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
+                this._setCursorPosition(caretStart);
+            }
+            let /** @type {?} */ char;
+            switch (this.key) {
+                // this keys have no actions yet
+                // TODO: add deadkeys and modifiers
+                case KeyboardClassKey.Alt:
+                case KeyboardClassKey.AltGr:
+                case KeyboardClassKey.AltLk:
+                    this.altClick.emit(event);
+                    break;
+                case KeyboardClassKey.Bksp:
+                    this.deleteSelectedText(caretStart, caretEnd, value);
                     if (this.input && this.input.nativeElement) {
                         this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                     }
-                    this.enterClick.emit(event);
-                    // TODO: trigger submit / onSubmit / ngSubmit properly (for the time being this has to be handled by the user himself)
-                    // console.log(this.control.ngControl.control.root)
-                    // this.input.nativeElement.form.submit();
-                }
-                break;
-            case KeyboardClassKey.Shift:
-                this.shiftClick.emit(event);
-                break;
-            case KeyboardClassKey.Space:
-                char = VALUE_SPACE;
+                    this.bkspClick.emit(event);
+                    break;
+                case KeyboardClassKey.Caps:
+                    this.capsClick.emit(event);
+                    break;
+                case KeyboardClassKey.Enter:
+                    if (this._isTextarea()) {
+                        char = VALUE_NEWLINE;
+                    }
+                    else {
+                        if (this.input && this.input.nativeElement) {
+                            this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                        this.enterClick.emit(event);
+                        // TODO: trigger submit / onSubmit / ngSubmit properly (for the time being this has to be handled by the user himself)
+                        // console.log(this.control.ngControl.control.root)
+                        // this.input.nativeElement.form.submit();
+                    }
+                    break;
+                case KeyboardClassKey.Shift:
+                    this.shiftClick.emit(event);
+                    break;
+                case KeyboardClassKey.Space:
+                    char = VALUE_SPACE;
+                    if (this.input && this.input.nativeElement) {
+                        this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                    this.spaceClick.emit(event);
+                    break;
+                case KeyboardClassKey.Tab:
+                    char = VALUE_TAB;
+                    this.tabClick.emit(event);
+                    break;
+                default:
+                    // the key is not mapped or a string
+                    char = `${this.key}`;
+                    this.keyClick.emit(event);
+                    break;
+            }
+            if (char && this.input) {
+                this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
+                this._setCursorPosition(caretStart + 1);
                 if (this.input && this.input.nativeElement) {
                     this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                 }
-                this.spaceClick.emit(event);
-                break;
-            case KeyboardClassKey.Tab:
-                char = VALUE_TAB;
-                this.tabClick.emit(event);
-                break;
-            default:
-                // the key is not mapped or a string
-                char = `${this.key}`;
-                this.keyClick.emit(event);
-                break;
-        }
-        if (char && this.input) {
-            this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
-            this._setCursorPosition(caretStart + 1);
-            if (this.input && this.input.nativeElement) {
-                this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
     }
@@ -7562,6 +7586,7 @@ class MatKeyboardKeyComponent {
         return this.input && this.input.nativeElement && this.input.nativeElement.tagName === 'TEXTAREA';
     }
 }
+MatKeyboardKeyComponent.KeyboardLock = false;
 MatKeyboardKeyComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mat-keyboard-key',
@@ -7588,6 +7613,7 @@ MatKeyboardKeyComponent.decorators = [
       -ms-flex-pack:justify;
           justify-content:space-between;
   line-height:20px; }
+
 .mat-keyboard-key{
   min-width:0;
   width:100%; }
@@ -7617,6 +7643,7 @@ MatKeyboardKeyComponent.decorators = [
       background-color:#0f0;
       -webkit-box-shadow:0 0 §px #adff2f;
               box-shadow:0 0 §px #adff2f; }
+
 :host-context(.dark-theme) .mat-keyboard-key{
   background-color:#616161;
   color:whitesmoke; }
@@ -7624,28 +7651,40 @@ MatKeyboardKeyComponent.decorators = [
     background-color:#9e9e9e; }
   :host-context(.dark-theme) .mat-keyboard-key-pressed{
     background-color:#757575; }
+
 :host-context(.debug) .mat-keyboard-key-deadkey{
   background-color:cadetblue; }
+
 :host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{
   background-color:#6fa8aa; }
+
 :host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{
   background-color:#7fb1b3; }
+
 :host-context(.debug) .mat-keyboard-key-modifier{
   background-color:aquamarine; }
+
 :host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{
   background-color:#99ffdd; }
+
 :host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{
   background-color:#b2ffe5; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey{
   background-color:rebeccapurple; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{
   background-color:#7339ac; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{
   background-color:#8040bf; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-modifier{
   background-color:mediumpurple; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{
   background-color:#a284e0; }
+
 :host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{
   background-color:#b299e5; }
 `],
@@ -7950,6 +7989,7 @@ MatKeyboardComponent.decorators = [
   padding:14px 24px; }
   .mat-keyboard-wrapper.dark-theme{
     background-color:#424242; }
+
 .mat-keyboard-action{
   background:none;
   color:inherit;
@@ -7961,10 +8001,13 @@ MatKeyboardComponent.decorators = [
   line-height:1;
   margin-left:8px;
   text-transform:uppercase; }
+
 :host(.dark-theme) .mat-keyboard-action{
   color:whitesmoke; }
+
 .mat-keyboard-layout{
   width:100%; }
+
 .mat-keyboard-row{
   -webkit-box-align:stretch;
       -ms-flex-align:stretch;
@@ -7978,6 +8021,7 @@ MatKeyboardComponent.decorators = [
           flex-direction:row;
   -ms-flex-wrap:nowrap;
       flex-wrap:nowrap; }
+
 .mat-keyboard-col{
   -webkit-box-sizing:border-box;
           box-sizing:border-box;
@@ -7985,18 +8029,24 @@ MatKeyboardComponent.decorators = [
       -ms-flex:1 1 auto;
           flex:1 1 auto;
   padding:4px; }
+
 .mat-keyboard-key{
   min-width:0;
   width:100%; }
+
 :host(.dark-theme) .mat-keyboard-key{
   background-color:#616161;
   color:whitesmoke; }
+
 :host(.debug) .mat-keyboard-key-deadkey{
   background-color:cadetblue; }
+
 :host(.debug) .mat-keyboard-key-modifier{
   background-color:aquamarine; }
+
 :host(.debug.dark-theme) .mat-keyboard-key-deadkey{
   background-color:rebeccapurple; }
+
 :host(.debug.dark-theme) .mat-keyboard-key-modifier{
   background-color:mediumpurple; }
 `],
@@ -8183,4 +8233,4 @@ MatKeyboardModule.ctorParameters = () => [];
  */
 
 export { MatKeyboardRef, MatKeyboardComponent, SHOW_ANIMATION, HIDE_ANIMATION, MatKeyboardContainerComponent, VALUE_NEWLINE, VALUE_SPACE, VALUE_TAB, MatKeyboardKeyComponent, MatKeyboardConfig, MAT_KEYBOARD_DEADKEYS, keyboardDeadkeys, MAT_KEYBOARD_ICONS, keyboardIcons, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardDirective, KeyboardClassKey, KeyboardModifier, KeyboardAnimationState, KeyboardAnimationTransition, MatKeyboardKebabCasePipe, MatKeyboardService, _applyConfigDefaults, _applyAvailableLayouts, MatKeyboardModule };
-//# sourceMappingURL=ngx-material-keyboard-core.js.map
+//# sourceMappingURL=wfm-ngx-material-keyboard-core.js.map

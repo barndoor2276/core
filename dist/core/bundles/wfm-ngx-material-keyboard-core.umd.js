@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/Subject'), require('@angular/animations'), require('@angular/cdk/portal'), require('@angular/core'), require('@angular/material/core'), require('rxjs/add/operator/first'), require('@angular/cdk/a11y'), require('@angular/cdk/overlay'), require('@angular/forms'), require('rxjs/BehaviorSubject'), require('@angular/common'), require('@angular/material/button'), require('@angular/material/icon'), require('@angular/material/input')) :
 	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/Subject', '@angular/animations', '@angular/cdk/portal', '@angular/core', '@angular/material/core', 'rxjs/add/operator/first', '@angular/cdk/a11y', '@angular/cdk/overlay', '@angular/forms', 'rxjs/BehaviorSubject', '@angular/common', '@angular/material/button', '@angular/material/icon', '@angular/material/input'], factory) :
-	(factory((global['ngx-material-keyboard'] = global['ngx-material-keyboard'] || {}, global['ngx-material-keyboard'].core = {}),global.Rx,global.ng.animations,global.ng.cdk.portal,global.ng.core,global.ng.material.core,global.Rx.Observable.prototype,global.ng.cdk.a11y,global.ng.cdk.overlay,global.ng.forms,global.Rx,global.ng.common,global.ng.material.button,global.ng.material.icon,global.ng.material.input));
+	(factory((global['wfm-ngx-material-keyboard-core'] = {}),global.Rx,global.ng.animations,global.ng.cdk.portal,global.ng.core,global.ng.material.core,global.Rx.Observable.prototype,global.ng.cdk.a11y,global.ng.cdk.overlay,global.ng.forms,global.Rx,global.ng.common,global.ng.material.button,global.ng.material.icon,global.ng.material.input));
 }(this, (function (exports,Subject,animations,portal,core,core$1,first,a11y,overlay,forms,BehaviorSubject,common,button,icon,input) { 'use strict';
 
 /*! *****************************************************************************
@@ -24,6 +24,46 @@ function __extends(d, b) {
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+
+
+
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
 }
 
 var MatKeyboardRef = /** @class */ (function () {
@@ -6910,6 +6950,7 @@ keyboardDeadkeys['\u00ba'] = keyboardDeadkeys['\u00b0'];
 keyboardDeadkeys['\u201a'] = keyboardDeadkeys['\u00B8'];
 var MAT_KEYBOARD_ICONS = new core.InjectionToken('keyboard-icons.config');
 var keyboardIcons = (_a = {}, _a[KeyboardClassKey.Bksp] = 'keyboard_backspace', _a[KeyboardClassKey.Caps] = 'keyboard_capslock', _a[KeyboardClassKey.Enter] = 'keyboard_return', _a[KeyboardClassKey.Shift] = 'keyboard_arrow_up', _a[KeyboardClassKey.Space] = ' ', _a[KeyboardClassKey.Tab] = 'keyboard_tab', _a);
+var KEYBOARD_LOCK_DURATION_MS = 25;
 var VALUE_NEWLINE = '\n\r';
 var VALUE_SPACE = ' ';
 var VALUE_TAB = '\t';
@@ -7037,68 +7078,88 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
         this._deadkeyKeys = Object.keys(this._deadkeys);
         this._iconKeys = Object.keys(this._icons);
     };
+    MatKeyboardKeyComponent.lockKeyboard = function (ms) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, new Promise(function (resolve) {
+                            MatKeyboardKeyComponent.KeyboardLock = true;
+                            setTimeout(resolve, ms);
+                        }).then(function () {
+                            MatKeyboardKeyComponent.KeyboardLock = false;
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     MatKeyboardKeyComponent.prototype.onClick = function (event) {
-        this._triggerKeyEvent();
-        this.genericClick.emit(event);
-        var value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
-        var caretStart = this.input ? this._getCursorPosition().start : 0;
-        var caretEnd = this.input ? this._getCursorPosition().end : 0;
-        if (caretEnd !== caretStart) {
-            value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
-            this._setCursorPosition(caretStart);
-        }
-        var char;
-        switch (this.key) {
-            case KeyboardClassKey.Alt:
-            case KeyboardClassKey.AltGr:
-            case KeyboardClassKey.AltLk:
-                this.altClick.emit(event);
-                break;
-            case KeyboardClassKey.Bksp:
-                this.deleteSelectedText(caretStart, caretEnd, value);
-                if (this.input && this.input.nativeElement) {
-                    this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                this.bkspClick.emit(event);
-                break;
-            case KeyboardClassKey.Caps:
-                this.capsClick.emit(event);
-                break;
-            case KeyboardClassKey.Enter:
-                if (this._isTextarea()) {
-                    char = VALUE_NEWLINE;
-                }
-                else {
+        if (!MatKeyboardKeyComponent.KeyboardLock) {
+            MatKeyboardKeyComponent.lockKeyboard(KEYBOARD_LOCK_DURATION_MS);
+            this._triggerKeyEvent();
+            this.genericClick.emit(event);
+            var value = this.inputValue === null || this.inputValue === undefined ? '' : this.inputValue.toString();
+            var caretStart = this.input ? this._getCursorPosition().start : 0;
+            var caretEnd = this.input ? this._getCursorPosition().end : 0;
+            if (caretEnd !== caretStart) {
+                value = [value.slice(0, caretStart), value.slice(caretEnd)].join('');
+                this._setCursorPosition(caretStart);
+            }
+            var char = void 0;
+            switch (this.key) {
+                case KeyboardClassKey.Alt:
+                case KeyboardClassKey.AltGr:
+                case KeyboardClassKey.AltLk:
+                    this.altClick.emit(event);
+                    break;
+                case KeyboardClassKey.Bksp:
+                    this.deleteSelectedText(caretStart, caretEnd, value);
                     if (this.input && this.input.nativeElement) {
                         this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                     }
-                    this.enterClick.emit(event);
-                }
-                break;
-            case KeyboardClassKey.Shift:
-                this.shiftClick.emit(event);
-                break;
-            case KeyboardClassKey.Space:
-                char = VALUE_SPACE;
+                    this.bkspClick.emit(event);
+                    break;
+                case KeyboardClassKey.Caps:
+                    this.capsClick.emit(event);
+                    break;
+                case KeyboardClassKey.Enter:
+                    if (this._isTextarea()) {
+                        char = VALUE_NEWLINE;
+                    }
+                    else {
+                        if (this.input && this.input.nativeElement) {
+                            this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                        this.enterClick.emit(event);
+                    }
+                    break;
+                case KeyboardClassKey.Shift:
+                    this.shiftClick.emit(event);
+                    break;
+                case KeyboardClassKey.Space:
+                    char = VALUE_SPACE;
+                    if (this.input && this.input.nativeElement) {
+                        this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                    this.spaceClick.emit(event);
+                    break;
+                case KeyboardClassKey.Tab:
+                    char = VALUE_TAB;
+                    this.tabClick.emit(event);
+                    break;
+                default:
+                    char = "" + this.key;
+                    this.keyClick.emit(event);
+                    break;
+            }
+            if (char && this.input) {
+                this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
+                this._setCursorPosition(caretStart + 1);
                 if (this.input && this.input.nativeElement) {
                     this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
                 }
-                this.spaceClick.emit(event);
-                break;
-            case KeyboardClassKey.Tab:
-                char = VALUE_TAB;
-                this.tabClick.emit(event);
-                break;
-            default:
-                char = "" + this.key;
-                this.keyClick.emit(event);
-                break;
-        }
-        if (char && this.input) {
-            this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
-            this._setCursorPosition(caretStart + 1);
-            if (this.input && this.input.nativeElement) {
-                this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
     };
@@ -7190,11 +7251,12 @@ var MatKeyboardKeyComponent = /** @class */ (function () {
     };
     return MatKeyboardKeyComponent;
 }());
+MatKeyboardKeyComponent.KeyboardLock = false;
 MatKeyboardKeyComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'mat-keyboard-key',
                 template: "<button mat-raised-button\n        class=\"mat-keyboard-key\"\n        tabindex=\"-1\"\n        [class.mat-keyboard-key-active]=\"active$ | async\"\n        [class.mat-keyboard-key-pressed]=\"pressed$ | async\"\n        [ngClass]=\"cssClass\"\n        (click)=\"onClick($event)\"\n>\n  <mat-icon *ngIf=\"hasIcon\">{{ icon }}</mat-icon>\n  <ng-container *ngIf=\"!hasIcon\">{{ key }}</ng-container>\n</button>\n",
-                styles: ["@charset \"UTF-8\";\n:host{\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px; }\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n  .mat-keyboard-key-active{\n    background-color:#e0e0e0; }\n  .mat-keyboard-key-pressed{\n    background-color:#bdbdbd; }\n  .mat-keyboard-key-capslock{\n    background-color:white; }\n    .mat-keyboard-key-capslock:before{\n      background-color:#bdbdbd;\n      border-radius:100%;\n      content:'';\n      display:inline-block;\n      height:3px;\n      left:5px;\n      position:absolute;\n      top:5px;\n      -webkit-transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      -webkit-transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, box-shadow;\n      transition-property:background-color, box-shadow, -webkit-box-shadow;\n      width:3px; }\n    .mat-keyboard-key-capslock.mat-keyboard-key-active:before{\n      background-color:#0f0;\n      -webkit-box-shadow:0 0 \u00A7px #adff2f;\n              box-shadow:0 0 \u00A7px #adff2f; }\n:host-context(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n  :host-context(.dark-theme) .mat-keyboard-key-active{\n    background-color:#9e9e9e; }\n  :host-context(.dark-theme) .mat-keyboard-key-pressed{\n    background-color:#757575; }\n:host-context(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#6fa8aa; }\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#7fb1b3; }\n:host-context(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#99ffdd; }\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b2ffe5; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#7339ac; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#8040bf; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#a284e0; }\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b299e5; }\n"],
+                styles: ["@charset \"UTF-8\";\n:host{\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px; }\n\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n  .mat-keyboard-key-active{\n    background-color:#e0e0e0; }\n  .mat-keyboard-key-pressed{\n    background-color:#bdbdbd; }\n  .mat-keyboard-key-capslock{\n    background-color:white; }\n    .mat-keyboard-key-capslock:before{\n      background-color:#bdbdbd;\n      border-radius:100%;\n      content:'';\n      display:inline-block;\n      height:3px;\n      left:5px;\n      position:absolute;\n      top:5px;\n      -webkit-transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      transition:400ms cubic-bezier(0.25, 0.8, 0.25, 1);\n      -webkit-transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, -webkit-box-shadow;\n      transition-property:background-color, box-shadow;\n      transition-property:background-color, box-shadow, -webkit-box-shadow;\n      width:3px; }\n    .mat-keyboard-key-capslock.mat-keyboard-key-active:before{\n      background-color:#0f0;\n      -webkit-box-shadow:0 0 \u00A7px #adff2f;\n              box-shadow:0 0 \u00A7px #adff2f; }\n\n:host-context(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n  :host-context(.dark-theme) .mat-keyboard-key-active{\n    background-color:#9e9e9e; }\n  :host-context(.dark-theme) .mat-keyboard-key-pressed{\n    background-color:#757575; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#6fa8aa; }\n\n:host-context(.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#7fb1b3; }\n\n:host-context(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#99ffdd; }\n\n:host-context(.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b2ffe5; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-active{\n  background-color:#7339ac; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-deadkey.mat-keyboard-key-pressed{\n  background-color:#8040bf; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-active{\n  background-color:#a284e0; }\n\n:host-context(.dark-theme.debug) .mat-keyboard-key-modifier.mat-keyboard-key-pressed{\n  background-color:#b299e5; }\n"],
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
                 preserveWhitespaces: false
             },] },
@@ -7376,7 +7438,7 @@ MatKeyboardComponent.decorators = [
     { type: core.Component, args: [{
                 selector: 'mat-keyboard',
                 template: "<div class=\"mat-keyboard-wrapper\"\n     [class.dark-theme]=\"darkTheme$ | async\"\n     [class.debug]=\"isDebug$ | async\"\n>\n  <nav class=\"mat-keyboard-layout\">\n    <div class=\"mat-keyboard-row\"\n         *ngFor=\"let row of layout.keys\"\n    >\n      <ng-container *ngFor=\"let key of row\">\n        <mat-keyboard-key class=\"mat-keyboard-col\"\n                          *ngIf=\"getModifiedKey(key)\"\n                          [key]=\"getModifiedKey(key)\"\n                          [active]=\"isActive(key)\"\n                          [input]=\"inputInstance | async\"\n                          [control]=\"control\"\n                          (enterClick)=\"onEnterClick()\"\n                          (capsClick)=\"onCapsClick()\"\n                          (altClick)=\"onAltClick()\"\n                          (shiftClick)=\"onShiftClick()\"\n        ></mat-keyboard-key>\n      </ng-container>\n    </div>\n  </nav>\n</div>\n",
-                styles: [".mat-keyboard-wrapper{\n  background-color:whitesmoke;\n  border-radius:2px;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px;\n  padding:14px 24px; }\n  .mat-keyboard-wrapper.dark-theme{\n    background-color:#424242; }\n.mat-keyboard-action{\n  background:none;\n  color:inherit;\n  -ms-flex-negative:0;\n      flex-shrink:0;\n  font-family:inherit;\n  font-size:inherit;\n  font-weight:600;\n  line-height:1;\n  margin-left:8px;\n  text-transform:uppercase; }\n:host(.dark-theme) .mat-keyboard-action{\n  color:whitesmoke; }\n.mat-keyboard-layout{\n  width:100%; }\n.mat-keyboard-row{\n  -webkit-box-align:stretch;\n      -ms-flex-align:stretch;\n          align-items:stretch;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  -webkit-box-orient:horizontal;\n  -webkit-box-direction:normal;\n      -ms-flex-direction:row;\n          flex-direction:row;\n  -ms-flex-wrap:nowrap;\n      flex-wrap:nowrap; }\n.mat-keyboard-col{\n  -webkit-box-sizing:border-box;\n          box-sizing:border-box;\n  -webkit-box-flex:1;\n      -ms-flex:1 1 auto;\n          flex:1 1 auto;\n  padding:4px; }\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n:host(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n:host(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n:host(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n:host(.debug.dark-theme) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n:host(.debug.dark-theme) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n"],
+                styles: [".mat-keyboard-wrapper{\n  background-color:whitesmoke;\n  border-radius:2px;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  font-family:Roboto, \"Helvetica Neue\", sans-serif;\n  font-size:14px;\n  -webkit-box-pack:justify;\n      -ms-flex-pack:justify;\n          justify-content:space-between;\n  line-height:20px;\n  padding:14px 24px; }\n  .mat-keyboard-wrapper.dark-theme{\n    background-color:#424242; }\n\n.mat-keyboard-action{\n  background:none;\n  color:inherit;\n  -ms-flex-negative:0;\n      flex-shrink:0;\n  font-family:inherit;\n  font-size:inherit;\n  font-weight:600;\n  line-height:1;\n  margin-left:8px;\n  text-transform:uppercase; }\n\n:host(.dark-theme) .mat-keyboard-action{\n  color:whitesmoke; }\n\n.mat-keyboard-layout{\n  width:100%; }\n\n.mat-keyboard-row{\n  -webkit-box-align:stretch;\n      -ms-flex-align:stretch;\n          align-items:stretch;\n  display:-webkit-box;\n  display:-ms-flexbox;\n  display:flex;\n  -webkit-box-orient:horizontal;\n  -webkit-box-direction:normal;\n      -ms-flex-direction:row;\n          flex-direction:row;\n  -ms-flex-wrap:nowrap;\n      flex-wrap:nowrap; }\n\n.mat-keyboard-col{\n  -webkit-box-sizing:border-box;\n          box-sizing:border-box;\n  -webkit-box-flex:1;\n      -ms-flex:1 1 auto;\n          flex:1 1 auto;\n  padding:4px; }\n\n.mat-keyboard-key{\n  min-width:0;\n  width:100%; }\n\n:host(.dark-theme) .mat-keyboard-key{\n  background-color:#616161;\n  color:whitesmoke; }\n\n:host(.debug) .mat-keyboard-key-deadkey{\n  background-color:cadetblue; }\n\n:host(.debug) .mat-keyboard-key-modifier{\n  background-color:aquamarine; }\n\n:host(.debug.dark-theme) .mat-keyboard-key-deadkey{\n  background-color:rebeccapurple; }\n\n:host(.debug.dark-theme) .mat-keyboard-key-modifier{\n  background-color:mediumpurple; }\n"],
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
                 preserveWhitespaces: false
             },] },
@@ -7545,4 +7607,4 @@ exports.MatKeyboardModule = MatKeyboardModule;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=ngx-material-keyboard-core.umd.js.map
+//# sourceMappingURL=wfm-ngx-material-keyboard-core.umd.js.map

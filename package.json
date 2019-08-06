@@ -1,17 +1,17 @@
 {
   "name": "ngx-material-keyboard-src",
-  "version": "0.1.1",
+  "version": "0.1.9",
   "description": "Onscreen virtual keyboard for Angular ≥ 5 (https://angular.io/) using Material 2 (https://material.angular.io/).",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngx-material-keyboard/core.git"
+    "url": "git+https://github.com/barndoor2276/ngx-material-keyboard-src.git"
   },
-  "author": "David Enke <post@davidenke.de>",
+  "author": "barndoor2276 <bernard@berganmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngx-material-keyboard/core/issues"
+    "url": "https://github.com/barndoor2276/ngx-material-keyboard-src/issues"
   },
-  "homepage": "https://github.com/ngx-material-keyboard/core",
+  "homepage": "https://github.com/barndoor2276/ngx-material-keyboard-src",
   "scripts": {
     "ng": "ng",
     "start": "npm run start:demo",
@@ -24,7 +24,12 @@
     "lint": "npm run lint:ts && npm run lint:sass",
     "lint:ts": "ng lint --type-check=true",
     "lint:sass": "sass-lint --verbose --no-exit --config ./.sass-lint.yml",
-    "postinstall": "npm rebuild node-sass"
+    "postinstall": "npm rebuild node-sass",
+    "preversion": "cd src/core && npm --no-git-tag-version version patch && git add package.json",
+    "version": "npm run build && git add -A dist/core",
+    "push": "git push && git push --tags",
+    "prerelease": "npm version patch && npm run push",
+    "release": "cd dist/core && npm publish --access=public"
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
@@ -50,7 +55,7 @@
     "@angular/cli": "1.7.0",
     "@angular/compiler-cli": "5.2.5",
     "@angular/language-service": "5.2.5",
-    "@compodoc/compodoc": "1.1.5",
+    "@compodoc/compodoc": "^1.1.10",
     "@types/jasmine": "2.8.6",
     "@types/node": "9.4.6",
     "codelyzer": "4.1.0",

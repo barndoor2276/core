@@ -1,18 +1,18 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@ngx-material-keyboard/core",
-  "version": "0.1.1",
+  "name": "wfm-ngx-material-keyboard-core",
+  "version": "0.1.9",
   "description": "Onscreen virtual keyboard for Angular ≥ 5 (https://angular.io/) using Material 5 (https://material.angular.io/).",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngx-material-keyboard/core.git"
+    "url": "git+https://github.com/barndoor2276/ngx-material-keyboard-src.git"
   },
-  "author": "David Enke <post@davidenke.de>",
+  "author": "barndoor2276 <bernard@berganmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngx-material-keyboard/core/issues"
+    "url": "https://github.com/barndoor2276/ngx-material-keyboard-src/issues"
   },
-  "homepage": "https://github.com/ngx-material-keyboard/core",
+  "homepage": "https://github.com/barndoor2276/ngx-material-keyboard-src",
   "publishConfig": {
     "access": "public"
   },
