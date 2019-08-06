@@ -2,7 +2,8 @@
 build/
 # dist/ #
 docs/
-src/
+# src/
+src/demo
 src/core/.ng_pkg_build
 target/
 
