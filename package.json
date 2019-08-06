@@ -24,7 +24,10 @@
     "lint": "npm run lint:ts && npm run lint:sass",
     "lint:ts": "ng lint --type-check=true",
     "lint:sass": "sass-lint --verbose --no-exit --config ./.sass-lint.yml",
-    "postinstall": "npm rebuild node-sass"
+    "postinstall": "npm rebuild node-sass",
+    "preversion": "echo \"%s['ngx-material-keyboard-src']\" && exit 1",
+    "version": "",
+    "postversion": ""
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
