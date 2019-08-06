@@ -13,7 +13,7 @@
   },
   "homepage": "https://github.com/barndoor2276/ngx-material-keyboard-src",
   "files": [
-    "dist"
+    "dist/core"
   ],
   "scripts": {
     "ng": "ng",
@@ -29,11 +29,10 @@
     "lint:sass": "sass-lint --verbose --no-exit --config ./.sass-lint.yml",
     "postinstall": "npm rebuild node-sass",
     "preversion": "cd src/core && npm --no-git-tag-version version patch && git add package.json",
-    "version": "npm run build && git add -A dist",
     "push": "git push && git push --tags",
-    "publish": "cd dist/core && npm publish --access=public",
-    "prerelease": "npm version patch",
-    "release": "npm run publish"
+    "prerelease": "npm version patch && npm run push",
+    "release": "npm run build",
+    "postrelease": "npm publish --access=public"
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
