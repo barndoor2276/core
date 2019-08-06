@@ -12,9 +12,6 @@
     "url": "https://github.com/barndoor2276/ngx-material-keyboard-src/issues"
   },
   "homepage": "https://github.com/barndoor2276/ngx-material-keyboard-src",
-  "files": [
-    "dist/core"
-  ],
   "scripts": {
     "ng": "ng",
     "start": "npm run start:demo",
