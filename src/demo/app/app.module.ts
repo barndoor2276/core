@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from 'ngx-material-keyboard-core';
 
 import { AppComponent } from './app.component';
 
@@ -57,4 +57,4 @@ const customLyouts: IKeyboardLayouts = {
     AppComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }

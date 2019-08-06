@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild 
 import { FormControl, NgControl, NgForm, NgModel } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
-import { IKeyboardLayout, MAT_KEYBOARD_LAYOUTS, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
+import { IKeyboardLayout, MAT_KEYBOARD_LAYOUTS, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from 'ngx-material-keyboard-core';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -58,8 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   constructor(private _keyboardService: MatKeyboardService,
-              @Inject(LOCALE_ID) public locale,
-              @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) {}
+    @Inject(LOCALE_ID) public locale,
+    @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) { }
 
   ngOnInit() {
     this.defaultLocale = ` ${this.locale}`.slice(1);

@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@wfm-ngx-material-keyboard/core",
-  "version": "0.0.1",
+  "name": "ngx-material-keyboard-core",
+  "version": "0.1.1",
   "description": "Onscreen virtual keyboard for Angular ≥ 5 (https://angular.io/) using Material 5 (https://material.angular.io/).",
   "repository": {
     "type": "git",
@@ -25,11 +25,11 @@
     "@angular/material": "5.2.2",
     "rxjs": "^5.5.2"
   },
-  "main": "bundles/wfm-ngx-material-keyboard-core.umd.js",
-  "module": "esm5/wfm-ngx-material-keyboard-core.js",
-  "es2015": "esm2015/wfm-ngx-material-keyboard-core.js",
-  "typings": "wfm-ngx-material-keyboard-core.d.ts",
-  "metadata": "wfm-ngx-material-keyboard-core.metadata.json",
+  "main": "bundles/ngx-material-keyboard-core.umd.js",
+  "module": "esm5/ngx-material-keyboard-core.js",
+  "es2015": "esm2015/ngx-material-keyboard-core.js",
+  "typings": "ngx-material-keyboard-core.d.ts",
+  "metadata": "ngx-material-keyboard-core.metadata.json",
   "dependencies": {
     "tslib": "^1.7.1"
   }
