@@ -29,10 +29,10 @@
     "lint:sass": "sass-lint --verbose --no-exit --config ./.sass-lint.yml",
     "postinstall": "npm rebuild node-sass",
     "preversion": "cd src/core && npm --no-git-tag-version version patch && git add package.json",
+    "version": "npm run build && git add -A dist/core",
     "push": "git push && git push --tags",
     "prerelease": "npm version patch && npm run push",
-    "release": "npm run build && git add -A dist/core",
-    "postrelease": "cd dist/core && npm publish --access=public"
+    "release": "cd dist/core && npm publish --access=public"
   },
   "dependencies": {
     "@angular/animations": "5.2.5",
